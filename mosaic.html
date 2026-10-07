@@ -1992,14 +1992,21 @@
         }
       }
     }
-    /* Snap points: one swipe or wheel step lands on the next stop. */
+    /* Snap points: the shelf settles on a book; Experiences scrolls freely. */
     html {
       scroll-snap-type: y mandatory;
     }
 
     html.is-free-scroll,
-    html.is-reading {
+    html.is-reading,
+    html.is-viewing {
       scroll-snap-type: none;
+    }
+
+    html.is-viewing,
+    html.is-viewing body {
+      overflow: hidden;
+      overscroll-behavior: none;
     }
 
     .snap-stop {
@@ -2011,35 +2018,27 @@
       pointer-events: none;
     }
 
-    /* Inside Experiences a flick can't skip a stop: zoom in, then move on. */
-    .xp .snap-stop {
-      scroll-snap-stop: always;
-    }
-
-    .xp-intro,
-    .xp-outro {
-      scroll-snap-align: start;
-    }
-
-    /* ================= Experiences ================= */
+    /* ================= Experiences: editorial mosaic ================= */
     .xp {
       --xp-serif: "Iowan Old Style", "Baskerville", "Times New Roman", serif;
       --xp-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      --xp-gutter: clamp(20px, 3vw, 34px);
-      --xp-paper: #171a24;
-      --xp-ink: #f4eee6;
-      --xp-ink-soft: #b9b4ae;
+      --xp-gutter: clamp(16px, 3vw, 34px);
+      --xp-bg: #141519;
+      --xp-ink: #f3efe8;
+      --xp-ink-soft: #a9a59e;
+      --xp-rule: rgba(243, 239, 232, 0.16);
       --xp-accent: #c87046;
+      --xp-row: clamp(150px, 14.5vw, 250px);
+      --xp-gap: clamp(10px, 1.2vw, 16px);
       position: relative;
-      background: #171a24;
-      color: #f4eee6;
+      padding: calc(96px + env(safe-area-inset-top)) var(--xp-gutter) calc(32px + env(safe-area-inset-bottom));
+      background: var(--xp-bg);
+      color: var(--xp-ink);
       font-family: var(--xp-sans);
+      scroll-snap-align: start;
     }
 
-    .xp a {
-      color: inherit;
-    }
-
+    .xp a,
     .xp button {
       color: inherit;
       font: inherit;
@@ -2053,137 +2052,289 @@
     .xp-kicker {
       margin: 0;
       font-family: var(--xp-sans);
-      font-size: 0.62rem;
+      font-size: 0.6rem;
       font-weight: 500;
       letter-spacing: 0.16em;
       line-height: 1.5;
       text-transform: uppercase;
     }
 
-    /* ---------- Intro ---------- */
-    .xp-intro {
+    /* ---------- Section head ---------- */
+    .xp-head {
       display: grid;
-      min-height: 100vh;
-      min-height: 100dvh;
-      padding: calc(110px + env(safe-area-inset-top)) var(--xp-gutter) calc(40px + env(safe-area-inset-bottom));
-      align-content: end;
-      gap: 34px;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 24px;
+      padding-bottom: 22px;
+      margin-bottom: var(--xp-gap);
+      border-bottom: 1px solid var(--xp-rule);
     }
 
-    .xp-intro h2 {
-      max-width: 12ch;
-      margin: 14px 0 0;
+    .xp-head h2 {
+      margin: 10px 0 0;
       font-family: var(--xp-serif);
-      font-size: clamp(3.2rem, 10vw, 9.5rem);
+      font-size: clamp(3rem, 9vw, 8.5rem);
       font-weight: 400;
       letter-spacing: -0.065em;
       line-height: 0.84;
     }
 
-    .xp-intro h2 em {
-      color: #c87046;
+    .xp-head h2 em {
+      color: var(--xp-accent);
       font-style: italic;
     }
 
-    .xp-intro__lede {
-      max-width: 38ch;
-      margin: 22px 0 0;
-      color: #b9b4ae;
-      font-family: var(--xp-serif);
-      font-size: clamp(1.05rem, 1.5vw, 1.3rem);
-      line-height: 1.5;
+    .xp-head__side {
+      display: grid;
+      justify-items: end;
+      gap: 14px;
+      max-width: 34ch;
+      text-align: right;
     }
 
-    .xp-contents {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-      gap: 12px 22px;
+    .xp-head__side p {
       margin: 0;
-      padding: 22px 0 0;
-      border-top: 1px solid rgba(244, 238, 230, 0.22);
-      list-style: none;
-    }
-
-    .xp-contents a {
-      display: grid;
-      grid-template-columns: 72px minmax(0, 1fr);
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-    }
-
-    .xp-thumb {
-      position: relative;
-      display: grid;
-      width: 72px;
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      background: var(--thumb-accent, #333);
-      color: rgba(255, 255, 255, 0.86);
+      color: var(--xp-ink-soft);
       font-family: var(--xp-serif);
-      font-size: 0.95rem;
-      place-items: center;
+      font-size: 1.02rem;
+      line-height: 1.45;
     }
 
-    .xp-thumb img {
+    .xp-head__side a {
+      color: var(--xp-ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--xp-rule);
+      padding-bottom: 3px;
+    }
+
+    /* ---------- Mosaic ---------- */
+    .xp-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-auto-rows: var(--xp-row);
+      gap: var(--xp-gap);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      perspective: 1400px;
+    }
+
+    /* Hierarchy: two feature tiles anchor the grid; the rest step down. */
+    .xp-grid > :nth-child(1)  { grid-column: 1 / 9;   grid-row: 1 / 3; }
+    .xp-grid > :nth-child(2)  { grid-column: 9 / 13;  grid-row: 1; }
+    .xp-grid > :nth-child(3)  { grid-column: 9 / 13;  grid-row: 2; }
+    .xp-grid > :nth-child(4)  { grid-column: 1 / 5;   grid-row: 3; }
+    .xp-grid > :nth-child(5)  { grid-column: 5 / 9;   grid-row: 3; }
+    .xp-grid > :nth-child(6)  { grid-column: 9 / 13;  grid-row: 3; }
+    .xp-grid > :nth-child(7)  { grid-column: 1 / 5;   grid-row: 4; }
+    .xp-grid > :nth-child(8)  { grid-column: 1 / 5;   grid-row: 5; }
+    .xp-grid > :nth-child(9)  { grid-column: 5 / 13;  grid-row: 4 / 6; }
+    .xp-grid > :nth-child(10) { grid-column: 1 / 7;   grid-row: 6 / 8; }
+    .xp-grid > :nth-child(11) { grid-column: 7 / 13;  grid-row: 6 / 8; }
+
+    .xp-tile {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      border-radius: 4px;
+      background: #000;
+      color: #f6f2ec;
+      transform-origin: 50% 100%;
+      will-change: transform, opacity;
+    }
+
+    .xp-tile__media,
+    .xp-tile__media video,
+    .xp-tile__media img,
+    .xp-placeholder {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      transition: transform 400ms cubic-bezier(0.2, 0.72, 0.24, 1);
     }
 
-    .xp-contents a:hover .xp-thumb img {
-      transform: scale(1.08);
-    }
-
-    .xp-contents strong {
+    .xp-tile__media video,
+    .xp-tile__media img {
       display: block;
-      margin-top: 2px;
+      object-fit: cover;
+      transform: scale(1.02);
+      transition: transform 900ms cubic-bezier(0.2, 0.72, 0.24, 1);
+    }
+
+    .xp-tile:hover .xp-tile__media video,
+    .xp-tile:focus-within .xp-tile__media video {
+      transform: scale(1.07);
+    }
+
+    .xp-placeholder {
+      display: grid;
+      background:
+        radial-gradient(circle at 28% 24%, color-mix(in srgb, var(--accent) 62%, white) 0%, transparent 52%),
+        linear-gradient(140deg, var(--accent), color-mix(in srgb, var(--accent) 30%, black));
+      place-items: center;
+    }
+
+    .xp-placeholder strong {
       font-family: var(--xp-serif);
-      font-size: 1rem;
+      font-size: clamp(3rem, 7vw, 7rem);
       font-weight: 400;
-      line-height: 1.15;
+      letter-spacing: -0.06em;
+      line-height: 0.8;
+      color: rgba(255, 255, 255, 0.9);
     }
 
-    .xp-contents .xp-kicker {
-      color: #b9b4ae;
-      font-size: 0.56rem;
-    }
-
-    .xp-cue {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: #b9b4ae;
-    }
-
-    .xp-cue span:first-child {
-      position: relative;
-      width: 1px;
-      height: 36px;
-      overflow: hidden;
-      background: rgba(244, 238, 230, 0.2);
-    }
-
-    .xp-cue span:first-child::after {
+    .xp-tile__shade {
       position: absolute;
       inset: 0;
-      background: #f4eee6;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.74) 0%, rgba(0, 0, 0, 0.18) 46%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .xp-tile__text {
+      position: absolute;
+      right: clamp(12px, 1.4vw, 22px);
+      bottom: clamp(12px, 1.4vw, 20px);
+      left: clamp(12px, 1.4vw, 22px);
+      display: grid;
+      gap: 6px;
+    }
+
+    .xp-tile__text .xp-kicker {
+      color: var(--accent);
+      filter: brightness(1.25);
+    }
+
+    .xp-tile h3 {
+      margin: 0;
+      font-family: var(--xp-serif);
+      font-size: clamp(1.25rem, 1.9vw, 1.9rem);
+      font-weight: 400;
+      letter-spacing: -0.04em;
+      line-height: 0.98;
+      text-wrap: balance;
+    }
+
+    .xp-tile__place {
+      margin: 0;
+      color: rgba(246, 242, 236, 0.74);
+      font-size: 0.72rem;
+      line-height: 1.4;
+    }
+
+    .xp-tile__desc {
+      display: none;
+      max-width: 44ch;
+      margin: 4px 0 0;
+      color: rgba(246, 242, 236, 0.84);
+      font-family: var(--xp-serif);
+      font-size: 1.02rem;
+      line-height: 1.45;
+    }
+
+    /* Feature tiles get display type and their description. */
+    .xp-tile.is-feature h3 {
+      font-size: clamp(2.4rem, 5vw, 5rem);
+      line-height: 0.9;
+    }
+
+    .xp-tile.is-feature .xp-tile__desc {
+      display: block;
+    }
+
+    .xp-tile.is-large h3 {
+      font-size: clamp(1.8rem, 3vw, 3rem);
+    }
+
+    /* The whole tile is the button; the title carries its name. */
+    .xp-tile__open {
+      padding: 0;
+      border: 0;
+      background: none;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .xp-tile__open::after {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
       content: "";
-      animation: xp-cue 1.8s cubic-bezier(0.2, 0.72, 0.24, 1) infinite;
     }
 
-    @keyframes xp-cue {
-      from { transform: translateY(-100%); }
-      to { transform: translateY(100%); }
+    .xp-tile__open:focus-visible {
+      outline: none;
     }
 
-    /* ---------- One sticky 3D stage for all eleven places ---------- */
+    .xp-tile:has(.xp-tile__open:focus-visible) {
+      outline: 2px solid var(--xp-accent);
+      outline-offset: 3px;
+    }
+
+    .xp-tile__cta {
+      position: absolute;
+      top: clamp(10px, 1.2vw, 16px);
+      right: clamp(10px, 1.2vw, 16px);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.35);
+      color: #f6f2ec;
+      font-size: 0.56rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity 260ms ease, transform 260ms ease;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      pointer-events: none;
+    }
+
+    .xp-tile:hover .xp-tile__cta,
+    .xp-tile:focus-within .xp-tile__cta {
+      opacity: 1;
+      transform: none;
+    }
+
+    .xp-tile.is-pending .xp-tile__cta {
+      display: none;
+    }
+
+    .xp-foot {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px 20px;
+      margin-top: 40px;
+      padding-top: 16px;
+      border-top: 1px solid var(--xp-rule);
+      color: var(--xp-ink-soft);
+      font-size: 0.74rem;
+      line-height: 1.5;
+    }
+
+    .xp-foot a {
+      color: var(--xp-ink);
+    }
+
+
+    /* ---------- Mosaic + scroll zoom ---------- */
+    .xp {
+      padding: 0;
+      scroll-snap-align: none;
+    }
+
+    .xp-head {
+      margin: 0;
+      padding: calc(96px + env(safe-area-inset-top)) var(--xp-gutter) 26px;
+      border-bottom: 0;
+      scroll-snap-align: start;
+    }
+
     .xp-track {
       position: relative;
-      /* JS sets the exact height from the number of experiences. */
       height: calc(100vh + 11 * 150vh);
     }
 
@@ -2193,268 +2344,69 @@
       height: 100vh;
       height: 100dvh;
       overflow: hidden;
-      background: var(--xp-paper);
-      color: var(--xp-ink);
-      perspective: 1100px;
-      perspective-origin: 50% 50%;
-      transition: background-color 800ms cubic-bezier(0.2, 0.72, 0.24, 1), color 500ms ease;
+      background: var(--xp-bg);
+      perspective: 1600px;
+      perspective-origin: 50% 40%;
     }
 
-    .xp-world {
+    .xp-tilt {
       position: absolute;
       inset: 0;
-      transform-style: preserve-3d;
-    }
-
-    .xp-chapter {
-      position: absolute;
-      inset: 0;
-      transform-style: preserve-3d;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    .xp-layer {
-      position: absolute;
-      will-change: transform, opacity;
-      backface-visibility: hidden;
-    }
-
-    .xp-number {
-      top: 12%;
-      right: 7%;
-      color: transparent;
-      font-family: var(--xp-serif);
-      font-size: clamp(9rem, 28vw, 26rem);
-      letter-spacing: -0.08em;
-      line-height: 0.75;
-      -webkit-text-stroke: 1px color-mix(in srgb, var(--c-ink) 30%, transparent);
-    }
-
-    .xp-title {
-      bottom: 15%;
-      left: 7%;
-      max-width: min(70vw, 900px);
-      color: var(--c-ink);
-    }
-
-    .xp-title .xp-kicker {
-      color: var(--c-accent);
-    }
-
-    .xp-title h3 {
-      margin: 10px 0 0;
-      font-family: var(--xp-serif);
-      font-size: clamp(2.8rem, 7.4vw, 7.4rem);
-      font-weight: 400;
-      letter-spacing: -0.06em;
-      line-height: 0.86;
-      text-wrap: balance;
-    }
-
-    .xp-place {
-      top: 22%;
-      left: 8%;
-      color: color-mix(in srgb, var(--c-ink) 70%, transparent);
-    }
-
-    .xp-ghost {
-      border: 1px solid color-mix(in srgb, var(--c-accent) 55%, transparent);
-    }
-
-    .xp-ghost::before,
-    .xp-ghost::after {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      border-color: var(--c-accent);
-      content: "";
-    }
-
-    .xp-ghost::before {
-      top: -1px;
-      left: -1px;
-      border-top: 2px solid;
-      border-left: 2px solid;
-    }
-
-    .xp-ghost::after {
-      right: -1px;
-      bottom: -1px;
-      border-right: 2px solid;
-      border-bottom: 2px solid;
-    }
-
-    /* Viewport-sized plane: full-bleed at z = 0, a floating card further back. */
-    .xp-plane {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-      background: #000;
-      will-change: transform, clip-path, opacity;
-      backface-visibility: hidden;
-    }
-
-    .xp-plane video,
-    .xp-plane > img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
       transform-origin: 50% 50%;
+      transform-style: preserve-3d;
+      will-change: transform;
     }
 
-    .xp-placeholder {
-      display: grid;
-      width: 100%;
-      height: 100%;
-      background:
-        radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--c-accent) 70%, white) 0%, transparent 55%),
-        linear-gradient(135deg, var(--c-accent), color-mix(in srgb, var(--c-accent) 35%, black));
-      color: rgba(255, 255, 255, 0.92);
-      place-items: center;
-      transform-origin: 50% 50%;
+    /* The grid is laid out at a fixed design size, then moved and scaled as
+       one piece, like a camera flying over a printed contact sheet. */
+    .xp-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--grid-w, 1280px);
+      grid-auto-rows: var(--grid-row, 200px);
+      gap: 14px;
+      perspective: none;
+      transform-origin: 0 0;
+      will-change: transform;
     }
 
-    .xp-placeholder div {
-      display: grid;
-      justify-items: center;
-      gap: 10px;
-      text-align: center;
+    .xp-tile {
+      transform: none !important;
+      will-change: auto;
     }
 
-    .xp-placeholder strong {
-      font-family: var(--xp-serif);
-      font-size: clamp(4rem, 12vw, 10rem);
-      font-weight: 400;
-      letter-spacing: -0.06em;
-      line-height: 0.8;
+    .xp-tile__media video {
+      transform: none;
+      transition: none;
     }
 
-    .xp-shade {
+    .xp-tile:hover .xp-tile__media video,
+    .xp-tile:focus-within .xp-tile__media video {
+      transform: none;
+    }
+
+    .xp-tile__text,
+    .xp-tile__cta {
+      transition: opacity 200ms ease;
+    }
+
+    .xp-tile.is-current {
+      z-index: 2;
+    }
+
+    /* Full-screen shade and caption sit flat above the moving grid. */
+    .xp-veil {
       position: absolute;
       inset: 0;
+      z-index: 3;
       background:
-        linear-gradient(0deg, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.25) 34%, transparent 58%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.42) 0%, transparent 22%);
+        linear-gradient(0deg, rgba(0, 0, 0, 0.74) 0%, rgba(0, 0, 0, 0.2) 36%, transparent 58%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, transparent 18%);
       opacity: 0;
       pointer-events: none;
     }
 
-    .xp-frame {
-      position: absolute;
-      border: 1px solid color-mix(in srgb, var(--c-accent) 85%, transparent);
-      pointer-events: none;
-    }
-
-    /* ---------- HUD ---------- */
-    .xp-hud {
-      position: absolute;
-      top: calc(var(--xp-gutter) - 4px + env(safe-area-inset-top));
-      right: calc(var(--xp-gutter) + env(safe-area-inset-right));
-      left: calc(var(--xp-gutter) + env(safe-area-inset-left));
-      z-index: 5;
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      transition: color 500ms ease;
-    }
-
-    .xp-hud__brand {
-      display: grid;
-      gap: 3px;
-    }
-
-    .xp-hud__brand strong {
-      font-family: var(--xp-serif);
-      font-size: clamp(1.15rem, 1.8vw, 1.6rem);
-      font-weight: 400;
-      letter-spacing: -0.03em;
-      line-height: 1;
-    }
-
-    .xp-hud__brand a {
-      color: var(--xp-ink-soft);
-      text-decoration: none;
-    }
-
-    .xp-hud__brand a:hover {
-      color: var(--xp-ink);
-    }
-
-    .xp-hud__right {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .xp-counter {
-      display: grid;
-      justify-items: end;
-      gap: 2px;
-      text-align: right;
-    }
-
-    .xp-counter span:first-child {
-      font-variant-numeric: tabular-nums;
-    }
-
-    .xp-counter span:last-child {
-      max-width: 34vw;
-      overflow: hidden;
-      color: var(--xp-ink-soft);
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .xp-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      min-height: 38px;
-      padding: 0 16px;
-      border: 1px solid color-mix(in srgb, var(--xp-ink) 40%, transparent);
-      border-radius: 999px;
-      background: transparent;
-      cursor: pointer;
-      font-size: 0.6rem;
-      letter-spacing: 0.14em;
-      text-decoration: none;
-      text-transform: uppercase;
-      touch-action: manipulation;
-      transition: background-color 200ms ease, color 200ms ease;
-    }
-
-    .xp-pill:hover {
-      background: var(--xp-ink);
-      color: var(--xp-paper);
-    }
-
-    .xp-rail {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 5;
-      width: 100%;
-      height: 2px;
-      background: var(--xp-accent);
-      transform-origin: left;
-      transform: scaleX(0);
-    }
-
-    .xp-hint {
-      position: absolute;
-      bottom: calc(26px + env(safe-area-inset-bottom));
-      left: 50%;
-      z-index: 4;
-      color: color-mix(in srgb, var(--xp-ink) 70%, transparent);
-      transform: translateX(-50%);
-      white-space: nowrap;
-      pointer-events: none;
-    }
-
-    /* ---------- Captions (2D, over the full-bleed film) ---------- */
     .xp-caption {
       position: absolute;
       right: calc(var(--xp-gutter) + env(safe-area-inset-right));
@@ -2471,32 +2423,33 @@
     }
 
     .xp-caption .xp-kicker {
-      color: var(--c-accent);
+      color: var(--accent);
+      filter: brightness(1.25);
     }
 
     .xp-caption h3 {
       margin: 8px 0 0;
       font-family: var(--xp-serif);
-      font-size: clamp(2.2rem, 5vw, 4.8rem);
+      font-size: clamp(2.4rem, 6vw, 5.6rem);
       font-weight: 400;
       letter-spacing: -0.055em;
-      line-height: 0.9;
+      line-height: 0.88;
       text-wrap: balance;
-    }
-
-    .xp-caption p {
-      max-width: 40ch;
-      margin: 0;
-      color: rgba(246, 242, 236, 0.86);
-      font-family: var(--xp-serif);
-      font-size: clamp(1rem, 1.25vw, 1.18rem);
-      line-height: 1.5;
     }
 
     .xp-caption__side {
       display: grid;
       justify-items: start;
-      gap: 18px;
+      gap: 16px;
+    }
+
+    .xp-caption p {
+      max-width: 42ch;
+      margin: 0;
+      color: rgba(246, 242, 236, 0.86);
+      font-family: var(--xp-serif);
+      font-size: clamp(1rem, 1.25vw, 1.18rem);
+      line-height: 1.5;
     }
 
     .xp-caption dl {
@@ -2507,7 +2460,7 @@
     }
 
     .xp-caption dt {
-      color: rgba(246, 242, 236, 0.62);
+      color: rgba(246, 242, 236, 0.6);
       font-size: 0.56rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -2526,7 +2479,7 @@
       padding: 0 16px;
       border: 1px solid rgba(246, 242, 236, 0.5);
       border-radius: 999px;
-      background: rgba(0, 0, 0, 0.18);
+      background: rgba(0, 0, 0, 0.2);
       color: #f6f2ec;
       cursor: pointer;
       font-size: 0.6rem;
@@ -2543,157 +2496,124 @@
       fill: currentColor;
     }
 
-    /* ---------- Index overlay ---------- */
-    .xp-index {
+    .xp-hud {
       position: absolute;
-      inset: 0;
-      z-index: 8;
-      display: grid;
-      padding: calc(84px + env(safe-area-inset-top)) var(--xp-gutter) calc(28px + env(safe-area-inset-bottom));
-      overflow-y: auto;
-      overscroll-behavior: contain;
-      background: color-mix(in srgb, var(--xp-paper) 94%, transparent);
+      top: calc(14px + env(safe-area-inset-top));
+      right: calc(var(--xp-gutter) + env(safe-area-inset-right));
+      left: calc(var(--xp-gutter) + env(safe-area-inset-left));
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
       color: var(--xp-ink);
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 300ms ease, visibility 0s linear 300ms;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
     }
 
-    .xp-index.is-open {
-      opacity: 1;
-      visibility: visible;
-      transition: opacity 300ms ease;
-    }
-
-    .xp-index ol {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      align-content: start;
-      gap: 6px 28px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .xp-index button {
-      display: grid;
-      grid-template-columns: 40px minmax(0, 1fr);
-      align-items: baseline;
-      width: 100%;
-      padding: 14px 0;
-      border: 0;
-      border-bottom: 1px solid color-mix(in srgb, var(--xp-ink) 18%, transparent);
-      background: transparent;
-      cursor: pointer;
-      text-align: left;
-    }
-
-    .xp-index button span:first-child {
-      color: var(--xp-ink-soft);
-      font-size: 0.62rem;
-      font-variant-numeric: tabular-nums;
-      letter-spacing: 0.12em;
-    }
-
-    .xp-index button strong {
-      font-family: var(--xp-serif);
-      font-size: clamp(1.3rem, 2.4vw, 1.9rem);
-      font-weight: 400;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-    }
-
-    .xp-index button[aria-current="true"] strong {
-      color: var(--xp-accent);
-    }
-
-    /* ---------- Outro ---------- */
-    .xp-outro {
-      display: grid;
-      min-height: 80vh;
-      min-height: 80dvh;
-      padding: 120px var(--xp-gutter) calc(40px + env(safe-area-inset-bottom));
-      align-content: space-between;
-      gap: 48px;
-    }
-
-    .xp-outro a.xp-back {
-      display: inline-block;
-      margin-top: 14px;
-      font-family: var(--xp-serif);
-      font-size: clamp(2.8rem, 8vw, 7.5rem);
-      letter-spacing: -0.06em;
-      line-height: 0.88;
+    .xp-hud a {
       text-decoration: none;
     }
 
-    .xp-outro a.xp-back span {
-      display: inline-block;
-      color: #c87046;
-      transition: transform 400ms cubic-bezier(0.2, 0.72, 0.24, 1);
+    .xp-hud__count {
+      font-variant-numeric: tabular-nums;
+      text-align: right;
     }
 
-    .xp-outro a.xp-back:hover span {
-      transform: translateY(-10px);
+    .xp-hud__count span {
+      color: var(--xp-ink-soft);
     }
 
-    .xp-outro footer {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 16px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(244, 238, 230, 0.22);
-      color: #b9b4ae;
-      font-size: 0.74rem;
-      line-height: 1.5;
+    .xp-rail {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 5;
+      width: 100%;
+      height: 2px;
+      background: var(--accent, var(--xp-accent));
+      transform-origin: left;
+      transform: scaleX(0);
     }
 
-    /* ---------- Mobile ---------- */
+    .xp-hint {
+      position: absolute;
+      bottom: calc(22px + env(safe-area-inset-bottom));
+      left: 50%;
+      z-index: 5;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.45);
+      color: #f6f2ec;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      pointer-events: none;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .xp-foot {
+      margin: 0;
+      padding: 18px var(--xp-gutter) calc(28px + env(safe-area-inset-bottom));
+      scroll-snap-align: end;
+    }
+
+    .xp .snap-stop {
+      scroll-snap-stop: always;
+    }
+
+    /* ---------- Phones ---------- */
     @media (max-width: 880px) {
-      .xp-contents {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 12px 14px;
-      }
-
-      .xp-contents a {
+      .xp-head {
         grid-template-columns: 1fr;
-        gap: 6px;
+        gap: 14px;
+        padding-top: calc(76px + env(safe-area-inset-top));
       }
 
-      .xp-thumb {
-        width: 100%;
+      .xp-head__side {
+        justify-items: start;
+        text-align: left;
       }
 
-      .xp-hud__brand strong {
-        font-size: 1.1rem;
+      .xp-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: auto;
+        gap: 10px;
       }
 
-      .xp-counter span:last-child {
+      .xp-grid > * {
+        grid-column: auto / span 1 !important;
+        grid-row: auto !important;
+        aspect-ratio: 4 / 5;
+      }
+
+      .xp-grid > :nth-child(1),
+      .xp-grid > :nth-child(9) {
+        grid-column: 1 / -1 !important;
+        aspect-ratio: 4 / 5;
+      }
+
+      .xp-grid > :nth-child(6),
+      .xp-grid > :nth-child(10),
+      .xp-grid > :nth-child(11) {
+        grid-column: 1 / -1 !important;
+        aspect-ratio: 16 / 11;
+      }
+
+      .xp-tile h3 {
+        font-size: 1.15rem;
+      }
+
+      .xp-tile.is-feature h3 {
+        font-size: clamp(2.2rem, 10vw, 3.2rem);
+      }
+
+      .xp-tile.is-large h3 {
+        font-size: clamp(1.6rem, 7vw, 2.2rem);
+      }
+
+      .xp-tile:not(.is-feature):not(.is-large) .xp-tile__place,
+      .xp-tile__cta {
         display: none;
-      }
-
-      .xp-number {
-        top: 13%;
-        right: 4%;
-        font-size: 42vw;
-      }
-
-      .xp-title {
-        bottom: 21%;
-        left: 6%;
-        max-width: 88vw;
-      }
-
-      .xp-title h3 {
-        font-size: clamp(2.5rem, 12vw, 4.4rem);
-      }
-
-      .xp-place {
-        top: 24%;
-        left: 6%;
       }
 
       .xp-caption {
@@ -2702,31 +2622,21 @@
       }
 
       .xp-caption h3 {
-        font-size: clamp(2rem, 10vw, 3.2rem);
+        font-size: clamp(2.2rem, 11vw, 3.4rem);
       }
 
       .xp-caption p {
         font-size: 0.98rem;
       }
 
-      .xp-caption__side {
-        gap: 14px;
-      }
-
-      .xp-index ol {
-        grid-template-columns: 1fr;
+      .xp-hud__count span {
+        display: none;
       }
     }
 
     @media (max-width: 880px) and (max-height: 520px) {
       .xp-caption p {
         display: none;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .xp-cue span:first-child::after {
-        animation: none;
       }
     }
   </style>
@@ -2914,58 +2824,40 @@
     </div>
   </div>
   </section>
-  <section class="xp" id="experiences" aria-labelledby="xp-intro-title">
-    <div class="xp-intro">
+  <section class="xp" id="experiences" aria-labelledby="xp-title">
+    <header class="xp-head">
       <div>
         <p class="xp-kicker">Working Volumes · Experiences</p>
-        <h2 id="xp-intro-title">Eleven places, <em>entered</em> slowly.</h2>
-        <p class="xp-intro__lede">
-          From the shelf to the world beyond it. Keep scrolling and each place comes
-          forward until you're standing inside it.
-        </p>
+        <h2 id="xp-title">Eleven places, <em>up close.</em></h2>
       </div>
-      <ol class="xp-contents" id="xp-contents"></ol>
-      <div class="xp-cue" aria-hidden="true">
-        <span></span>
-        <span class="xp-kicker">Scroll to enter</span>
+      <div class="xp-head__side">
+        <p>From the shelf to the world beyond it. Keep scrolling to step into each place, one film at a time.</p>
+        <a class="xp-kicker" href="#books">↑ Back to the books</a>
       </div>
-    </div>
+    </header>
 
     <div class="xp-track" id="xp-track">
       <div class="xp-stage" id="xp-stage">
-        <div class="xp-world" id="xp-world"></div>
+        <div class="xp-tilt" id="xp-tilt">
+          <ol class="xp-grid" id="xp-grid"></ol>
+        </div>
+        <div class="xp-veil" id="xp-veil"></div>
         <div id="xp-captions"></div>
         <span class="xp-rail" id="xp-rail" aria-hidden="true"></span>
         <div class="xp-hud">
-          <div class="xp-hud__brand">
-            <strong>Experiences</strong>
-            <a class="xp-kicker" href="#books" id="xp-to-books">↑ Back to the books</a>
-          </div>
-          <div class="xp-hud__right">
-            <p class="xp-counter xp-kicker" aria-live="polite">
-              <span id="xp-count">01 / 11</span>
-              <span id="xp-count-title"></span>
-            </p>
-            <button class="xp-pill" type="button" id="xp-index-toggle" aria-expanded="false" aria-controls="xp-index">Index</button>
-          </div>
+          <a class="xp-kicker" href="#books">↑ Books</a>
+          <p class="xp-kicker xp-hud__count" aria-live="polite">
+            <strong id="xp-count">01 / 11</strong> <span id="xp-count-title"></span>
+          </p>
         </div>
-        <p class="xp-hint xp-kicker" id="xp-hint" aria-hidden="true">Keep scrolling to step in</p>
-        <nav class="xp-index" id="xp-index" aria-label="All experiences">
-          <ol id="xp-index-list"></ol>
-        </nav>
+        <p class="xp-hint xp-kicker" id="xp-hint" aria-hidden="true">Scroll to step inside</p>
       </div>
     </div>
 
-    <div class="xp-outro">
-      <div>
-        <p class="xp-kicker">End of the experiences</p>
-        <a class="xp-back" href="#books"><span aria-hidden="true">↑</span> Back to<br>the books</a>
-      </div>
-      <footer>
-        <span>Working Volumes · Edition 02 · 2026</span>
-        <span>Book titles, cover artwork and place names belong to their respective owners.</span>
-      </footer>
-    </div>
+    <footer class="xp-foot">
+      <span>Working Volumes · Edition 02 · 2026</span>
+      <span>Book titles, cover artwork, films and place names belong to their respective owners.</span>
+    </footer>
   </section>
   </main>
 
@@ -7770,12 +7662,6 @@
   </script>
   <script>
     (() => {
-      /* =====================================================================
-         EXPERIENCES — edit this list to add or change places.
-         Order here is the order on the page. To add a film, give the entry a
-         `film` with webm/mp4 paths and a poster frame; entries without a film
-         show a coloured "film to come" card until one is added.
-         ===================================================================== */
       const EXPERIENCES = [
         {
           title: "Burgess Cellars",
@@ -7853,7 +7739,6 @@
       const lerp = (a, b, t) => a + (b - a) * t;
       const range = (value, start, end) => clamp((value - start) / (end - start), 0, 1);
       const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-      const easeIn = (t) => t * t;
       const smooth = (t) => t * t * (3 - 2 * t);
       const pad = (value) => String(value).padStart(2, "0");
       const el = (tag, className, text) => {
@@ -7862,13 +7747,8 @@
         if (text != null) node.textContent = text;
         return node;
       };
-      function seeded(seed) {
-        let value = seed >>> 0;
-        return () => {
-          value = (value * 1664525 + 1013904223) >>> 0;
-          return value / 4294967296;
-        };
-      }
+      const canWebm = document.createElement("video").canPlayType("video/webm") !== "";
+      const filmSource = (film) => (canWebm ? film.webm || film.mp4 : film.mp4 || film.webm);
 
       // Load a film robustly: MP4 (plays everywhere) first; if the browser or
       // a sandboxed preview refuses the file, fetch it and play it from memory;
@@ -7906,88 +7786,73 @@
 
       const track = document.querySelector("#xp-track");
       const stage = document.querySelector("#xp-stage");
-      const world = document.querySelector("#xp-world");
+      const tilt = document.querySelector("#xp-tilt");
+      const grid = document.querySelector("#xp-grid");
+      const veil = document.querySelector("#xp-veil");
       const captions = document.querySelector("#xp-captions");
       const rail = document.querySelector("#xp-rail");
       const hint = document.querySelector("#xp-hint");
       const count = document.querySelector("#xp-count");
       const countTitle = document.querySelector("#xp-count-title");
-      const indexToggle = document.querySelector("#xp-index-toggle");
-      const indexPanel = document.querySelector("#xp-index");
-      const indexList = document.querySelector("#xp-index-list");
-      const contents = document.querySelector("#xp-contents");
-      if (!track || !stage) return;
-
+      if (!track || !grid) return;
       const total = EXPERIENCES.length;
+      const FEATURE = new Set([0, 8]);
+      const LARGE = new Set([9, 10]);
+      const HOLD_POINT = 0.6;
       const PLAY_ICON = '<path d="M3 1.5v9l7.5-4.5z"/>';
       const PAUSE_ICON = '<rect x="2" y="1.5" width="2.6" height="9"/><rect x="7.4" y="1.5" width="2.6" height="9"/>';
 
-      /* ------------------------- build the chapters ------------------------- */
-      const chapters = EXPERIENCES.map((data, index) => {
+      /* ------------------------------ tiles ------------------------------ */
+      const tiles = EXPERIENCES.map((data, index) => {
         const number = pad(index + 1);
-        const palette = data.palette;
-        const node = el("div", "xp-chapter");
-        node.style.setProperty("--c-ink", palette.ink);
-        node.style.setProperty("--c-accent", palette.accent);
+        const tile = el("li", "xp-tile");
+        tile.style.setProperty("--accent", data.palette.accent);
+        if (FEATURE.has(index)) tile.classList.add("is-feature");
+        if (LARGE.has(index)) tile.classList.add("is-large");
+        if (!data.film) tile.classList.add("is-pending");
 
-        const numberLayer = el("span", "xp-layer xp-number", number);
-        numberLayer.dataset.z = "-1.9";
-        const placeLayer = el("p", "xp-layer xp-place xp-kicker", data.place);
-        placeLayer.dataset.z = "-0.9";
-        const titleLayer = el("div", "xp-layer xp-title");
-        titleLayer.dataset.z = "-0.12";
-        titleLayer.append(el("p", "xp-kicker", `Experience ${number} · ${data.kind}`), el("h3", null, data.title));
-        [numberLayer, placeLayer, titleLayer].forEach((layer) => layer.setAttribute("aria-hidden", "true"));
-        node.append(numberLayer, placeLayer, titleLayer);
-
-        // Decorative frames, kept off-centre so they never sit on the film.
-        const random = seeded(29 + index * 131);
-        for (let i = 0; i < 6; i += 1) {
-          const ghost = el("span", "xp-layer xp-ghost");
-          ghost.setAttribute("aria-hidden", "true");
-          const width = 12 + random() * 18;
-          ghost.style.width = `${width}vw`;
-          ghost.style.height = `${width * (0.45 + random() * 0.35)}vw`;
-          const side = i % 2 === 0 ? -1 : 1;
-          ghost.style.left = `${50 + side * (22 + random() * 24) - width / 2}%`;
-          ghost.style.top = `${8 + random() * 72}%`;
-          ghost.dataset.z = String(-2.6 + i * 0.42 + random() * 0.2);
-          ghost.dataset.max = "0.7";
-          node.append(ghost);
-        }
-
-        const plane = el("div", "xp-plane");
-        let media;
+        const media = el("div", "xp-tile__media");
         let video = null;
         if (data.film) {
           video = document.createElement("video");
           video.muted = true;
+          video.defaultMuted = true;
           video.loop = true;
           video.playsInline = true;
-          video.setAttribute("muted", "");
-          video.setAttribute("playsinline", "");
-          video.preload = index === 0 ? "auto" : "none";
-          video.poster = data.film.poster || "";
-          video.setAttribute("aria-label", data.film.label || data.title);
+          video.autoplay = !reduced;
+          ["muted", "playsinline", "loop"].forEach((name) => video.setAttribute(name, ""));
+          video.preload = "auto";
+          if (data.film.poster) video.poster = data.film.poster;
           attachFilm(video, data.film);
-          media = video;
+          video.setAttribute("aria-label", data.film.label || data.title);
+          media.append(video);
         } else {
-          media = el("div", "xp-placeholder");
-          media.setAttribute("aria-hidden", "true");
-          const inner = el("div");
-          inner.append(el("strong", null, number), el("span", "xp-kicker", "Film to come"));
-          media.append(inner);
+          const placeholder = el("div", "xp-placeholder");
+          placeholder.append(el("strong", null, number));
+          media.append(placeholder);
         }
-        const shade = el("div", "xp-shade");
-        const frame = el("div", "xp-frame");
-        frame.setAttribute("aria-hidden", "true");
-        plane.append(media, shade, frame);
-        node.append(plane);
-        world.append(node);
 
-        // Caption (real, accessible text) shown once the film is full-bleed.
+        const text = el("div", "xp-tile__text");
+        const heading = el("h3");
+        const open = el("button", "xp-tile__open", data.title);
+        open.type = "button";
+        open.setAttribute("aria-label", `Step into ${data.title}`);
+        heading.append(open);
+        text.append(
+          el("p", "xp-kicker", `${number} · ${data.kind}`),
+          heading,
+          el("p", "xp-tile__place", data.place),
+          el("p", "xp-tile__desc", data.description)
+        );
+        const cta = el("span", "xp-tile__cta", data.film ? "Watch" : "Film to come");
+        cta.setAttribute("aria-hidden", "true");
+        tile.append(media, el("div", "xp-tile__shade"), text, cta);
+        grid.append(tile);
+        open.addEventListener("click", () => goToExperience(index));
+
+        // Caption shown once the film fills the screen.
         const caption = el("div", "xp-caption");
-        caption.style.setProperty("--c-accent", palette.accent);
+        caption.style.setProperty("--accent", data.palette.accent);
         const head = el("div");
         head.append(el("p", "xp-kicker", `${number} · ${data.place}`), el("h3", null, data.title));
         const side = el("div", "xp-caption__side");
@@ -8003,94 +7868,60 @@
         if (video) {
           toggle = el("button", "xp-play");
           toggle.type = "button";
-          toggle.innerHTML = `<svg viewBox="0 0 12 12" aria-hidden="true">${PAUSE_ICON}</svg><span>Pause film</span>`;
           side.append(toggle);
         }
         caption.append(head, side);
         captions.append(caption);
 
-        const chapter = {
-          index,
-          data,
-          node,
-          plane,
-          media,
-          video,
-          shade,
-          frame,
-          caption,
-          toggle,
-          layers: [...node.querySelectorAll(".xp-layer")].map((layer) => ({
-            node: layer,
-            z: parseFloat(layer.dataset.z || "0"),
-            max: parseFloat(layer.dataset.max || "1")
-          })),
-          live: false,
-          userPaused: false,
-          insetX: 0,
-          insetY: 0,
-          fitScale: 1,
-          z0: -1000
+        const entry = {
+          index, data, tile, text, video, caption, toggle,
+          userPaused: false, x: 0, y: 0, w: 1, h: 1, cover: 1, focusX: 0, focusY: 0
         };
         if (toggle) {
           toggle.addEventListener("click", () => {
-            chapter.userPaused = !chapter.userPaused;
-            syncPlayback(chapter, true);
+            entry.userPaused = !entry.userPaused;
+            syncPlayback(entry);
           });
         }
-        return chapter;
+        return entry;
       });
-
-      /* ----------------------- contents + index lists ----------------------- */
-      EXPERIENCES.forEach((data, index) => {
-        const item = el("li");
-        const link = el("a");
-        link.href = "#experiences";
-        const thumb = el("span", "xp-thumb");
-        thumb.style.setProperty("--thumb-accent", data.palette.accent);
-        if (data.film?.poster) {
-          const img = el("img");
-          img.src = data.film.poster;
-          img.alt = "";
-          img.loading = "lazy";
-          thumb.append(img);
-        } else {
-          thumb.textContent = pad(index + 1);
-        }
-        const text = el("span");
-        text.append(el("span", "xp-kicker", `${pad(index + 1)} · ${data.kind}`), el("strong", null, data.title));
-        link.append(thumb, text);
-        link.addEventListener("click", (event) => {
-          event.preventDefault();
-          goToExperience(index);
-        });
-        item.append(link);
-        contents.append(item);
-
-        const indexItem = el("li");
-        const button = el("button");
-        button.type = "button";
-        button.append(el("span", null, pad(index + 1)), el("strong", null, data.title));
-        button.addEventListener("click", () => {
-          setIndexOpen(false);
-          goToExperience(index);
-        });
-        indexItem.append(button);
-        indexList.append(indexItem);
-      });
-      const indexButtons = [...indexList.querySelectorAll("button")];
 
       /* ------------------------------ layout ------------------------------ */
       let viewWidth = window.innerWidth;
       let viewHeight = window.innerHeight;
-      let perspective = 1100;
       let narrow = viewWidth <= 880;
-
-      // Each place has two stops: the floating card, then the full-bleed film
-      // with its caption. The next swipe flies on to the following card.
-      const HOLD_POINT = 0.62;
+      let gridWidth = 1280;
+      let gridHeight = 1500;
+      let overviewScale = 1;
       const stops = [];
-      function setTrackHeight() {
+
+      function layout() {
+        viewWidth = window.innerWidth;
+        viewHeight = stage.clientHeight || window.innerHeight;
+        narrow = viewWidth <= 880;
+        const gutter = narrow ? 16 : clamp(viewWidth * 0.03, 16, 34);
+        gridWidth = narrow ? viewWidth - gutter * 2 : 1280;
+        grid.style.setProperty("--grid-w", `${gridWidth}px`);
+        grid.style.setProperty("--grid-row", "200px");
+        gridHeight = grid.offsetHeight;
+        overviewScale = Math.min(1, (viewWidth - gutter * 2) / gridWidth);
+
+        const half = viewHeight / (2 * overviewScale);
+        const margin = 72 / overviewScale;
+        tiles.forEach((entry) => {
+          entry.x = entry.tile.offsetLeft;
+          entry.y = entry.tile.offsetTop;
+          entry.w = entry.tile.offsetWidth;
+          entry.h = entry.tile.offsetHeight;
+          // Scale at which this tile exactly covers the screen.
+          entry.cover = Math.max(viewWidth / entry.w, viewHeight / entry.h) * 1.004;
+          // Where the camera rests over the mosaic while this tile is next.
+          entry.focusX = gridWidth / 2;
+          entry.focusY = gridHeight * overviewScale <= viewHeight
+            ? gridHeight / 2
+            : clamp(entry.y + entry.h / 2, half - margin, gridHeight - half + margin);
+        });
+
         const segment = narrow ? 125 : 150;
         const unit = CSS.supports("height", "1svh") ? "svh" : "vh";
         track.style.height = `calc(100vh + ${total * segment}vh)`;
@@ -8109,275 +7940,159 @@
         stops.forEach((stop) => {
           stop.style.top = `${(parseFloat(stop.dataset.at) * segment).toFixed(3)}${unit}`;
         });
-      }
-
-      function layout() {
-        viewWidth = window.innerWidth;
-        viewHeight = stage.clientHeight || window.innerHeight;
-        const wasNarrow = narrow;
-        narrow = viewWidth <= 880;
-        perspective = narrow ? 760 : 1100;
-        stage.style.perspective = `${perspective}px`;
-        if (wasNarrow !== narrow || !track.style.height) setTrackHeight();
-
-        chapters.forEach((chapter) => {
-          // Largest 16:9 window inside the viewport-sized plane.
-          const windowWidth = Math.min(viewWidth, (viewHeight * 16) / 9);
-          const windowHeight = (windowWidth * 9) / 16;
-          chapter.insetX = (viewWidth - windowWidth) / 2;
-          chapter.insetY = (viewHeight - windowHeight) / 2;
-          // Inside the card the whole frame shows; it opens to a cover crop.
-          const coverWidth = Math.max(viewWidth, (viewHeight * 16) / 9);
-          chapter.fitScale = windowWidth / coverWidth;
-          const targetWidth = narrow
-            ? viewWidth * 0.7
-            : Math.min(viewWidth * 0.5, 920, viewHeight * 0.6 * (16 / 9));
-          const startScale = clamp(targetWidth / windowWidth, 0.2, 0.95);
-          // Perspective projection: scale = P / (P - z)  →  z = P (1 - 1 / scale).
-          chapter.z0 = perspective * (1 - 1 / startScale);
-        });
         lastRendered = NaN;
       }
 
       /* ------------------------------ render ------------------------------ */
-      function hideChapter(chapter) {
-        if (!chapter.live) return;
-        chapter.live = false;
-        chapter.node.style.visibility = "hidden";
-        chapter.caption.style.visibility = "hidden";
-        chapter.caption.style.opacity = "0";
-        syncPlayback(chapter);
-      }
+      let currentIndex = -1;
+      let activeIndex = 0;
 
-      function renderChapter(chapter, p) {
-        const isLast = chapter.index === total - 1;
-        let pre;
-        let zoom;
-        let open;
-        let exit;
-        let captionIn;
-        if (reduced) {
-          pre = zoom = open = captionIn = 1;
-          exit = 0;
-        } else {
-          pre = smooth(range(p, -0.3, 0));
-          zoom = easeInOut(range(p, 0, 0.42));
-          open = easeInOut(range(p, 0.16, 0.46));
-          exit = isLast ? 0 : easeIn(range(p, 0.8, 1));
-          captionIn = smooth(range(p, 0.46, 0.56))
-            * (isLast ? 1 : 1 - smooth(range(p, 0.76, 0.84)));
-        }
-        const intro = range(p, -0.3, 0.1);
-        const P = perspective;
+      function render(position) {
+        const index = clamp(Math.floor(position), 0, total - 1);
+        const p = clamp(position - index, 0, 1);
+        const isLast = index === total - 1;
+        const entry = tiles[index];
+        const next = tiles[Math.min(index + 1, total - 1)];
 
-        if (!chapter.live) {
-          chapter.live = true;
-          chapter.node.style.visibility = "visible";
-          if (chapter.video && chapter.video.preload !== "auto") chapter.video.preload = "auto";
-        }
+        // Zoom in, hold full-bleed with the caption, zoom back out.
+        const zoomIn = easeInOut(range(p, 0.04, 0.42));
+        const zoomOut = isLast ? 0 : easeInOut(range(p, 0.72, 0.94));
+        const z = zoomIn * (1 - zoomOut);
+        // Meanwhile the camera glides across the mosaic to the next tile.
+        const glide = isLast ? 0 : easeInOut(range(p, 0.8, 1));
+        const restX = lerp(entry.focusX, next.focusX, glide);
+        const restY = lerp(entry.focusY, next.focusY, glide);
 
-        const z = lerp(chapter.z0, 0, zoom) - (1 - pre) * 0.9 * P + exit * 0.55 * P;
-        const rotateX = lerp(lerp(12, 8, intro), 0, zoom);
-        const rotateY = lerp(lerp(-23, -15, intro), 0, zoom);
-        const rotateZ = lerp(-1.2, 0, zoom);
-        const insetX = chapter.insetX * (1 - open);
-        const insetY = chapter.insetY * (1 - open);
-        const radius = 16 * (1 - open);
-        const planeOpacity = pre * (1 - exit);
+        const centreX = viewWidth / 2;
+        const centreY = viewHeight / 2;
+        const tileX = entry.x + entry.w / 2;
+        const tileY = entry.y + entry.h / 2;
+        // Zoom geometrically so the move feels even from start to finish.
+        const scale = Math.exp(lerp(Math.log(overviewScale), Math.log(entry.cover), z));
+        // The tile slides from where it sits on screen to the exact centre.
+        const startX = centreX + overviewScale * (tileX - restX);
+        const startY = centreY + overviewScale * (tileY - restY);
+        const screenX = lerp(startX, centreX, z);
+        const screenY = lerp(startY, centreY, z);
+        const offsetX = screenX - scale * tileX;
+        const offsetY = screenY - scale * tileY;
 
-        chapter.plane.style.transform =
-          `translate3d(0, 0, ${z.toFixed(2)}px) rotateX(${rotateX.toFixed(3)}deg) ` +
-          `rotateY(${rotateY.toFixed(3)}deg) rotateZ(${rotateZ.toFixed(3)}deg)`;
-        chapter.plane.style.clipPath =
-          `inset(${insetY.toFixed(2)}px ${insetX.toFixed(2)}px round ${radius.toFixed(2)}px)`;
-        chapter.plane.style.opacity = planeOpacity.toFixed(3);
-        chapter.media.style.transform = `scale(${lerp(chapter.fitScale, 1, open).toFixed(4)})`;
+        grid.style.transform =
+          `translate3d(${offsetX.toFixed(2)}px, ${offsetY.toFixed(2)}px, 0) scale(${scale.toFixed(5)})`;
+        tilt.style.transform = reduced ? "" : `rotateX(${((1 - z) * 7).toFixed(3)}deg)`;
+        veil.style.opacity = (z * 0.95).toFixed(3);
 
-        const frameInset = 14;
-        chapter.frame.style.top = `${insetY + frameInset}px`;
-        chapter.frame.style.bottom = `${insetY + frameInset}px`;
-        chapter.frame.style.left = `${insetX + frameInset}px`;
-        chapter.frame.style.right = `${insetX + frameInset}px`;
-        chapter.frame.style.opacity = ((1 - open) * 0.9).toFixed(3);
-        chapter.shade.style.opacity = (open * 0.95).toFixed(3);
-
-        // The camera dollies forward; titles and frames drift past it.
-        const dolly = zoom * P * 1.35 - (1 - pre) * 0.9 * P;
-        chapter.layers.forEach((layer) => {
-          const depth = layer.z * P + dolly;
-          const fade = 1 - smooth(range(depth, P * 0.22, P * 0.6));
-          const opacity = clamp(fade * pre * layer.max, 0, 1);
-          if (reduced || opacity < 0.01 || depth > P * 0.85) {
-            layer.node.style.visibility = "hidden";
-            return;
+        tiles.forEach((tileEntry) => {
+          const isCurrent = tileEntry === entry;
+          tileEntry.tile.classList.toggle("is-current", isCurrent);
+          tileEntry.tile.style.opacity = isCurrent ? "1" : (1 - 0.7 * z).toFixed(3);
+          tileEntry.tile.style.borderRadius = isCurrent ? `${(4 * (1 - z)).toFixed(2)}px` : "";
+          tileEntry.text.style.opacity = isCurrent ? (1 - smooth(range(z, 0.04, 0.28))).toFixed(3) : "";
+          if (!isCurrent) {
+            tileEntry.caption.style.visibility = "hidden";
+            tileEntry.caption.style.opacity = "0";
           }
-          layer.node.style.visibility = "visible";
-          layer.node.style.opacity = opacity.toFixed(3);
-          layer.node.style.transform = `translate3d(0, 0, ${depth.toFixed(2)}px)`;
         });
 
-        chapter.caption.style.opacity = captionIn.toFixed(3);
-        chapter.caption.style.visibility = captionIn > 0.01 ? "visible" : "hidden";
-        chapter.caption.style.transform = `translateY(${((1 - captionIn) * 26).toFixed(2)}px)`;
+        const captionIn = smooth(range(p, 0.4, 0.5))
+          * (isLast ? 1 : 1 - smooth(range(p, 0.72, 0.8)));
+        entry.caption.style.opacity = captionIn.toFixed(3);
+        entry.caption.style.visibility = captionIn > 0.01 ? "visible" : "hidden";
+        entry.caption.style.transform = `translateY(${((1 - captionIn) * 24).toFixed(2)}px)`;
+
+        activeIndex = index;
+        const shown = clamp(Math.floor(position + 0.15), 0, total - 1);
+        if (shown !== currentIndex) {
+          currentIndex = shown;
+          const data = EXPERIENCES[shown];
+          stage.style.setProperty("--accent", data.palette.accent);
+          count.textContent = `${pad(shown + 1)} / ${pad(total)}`;
+          countTitle.textContent = data.title;
+        }
+        rail.style.transform = `scaleX(${(position / total).toFixed(4)})`;
+        hint.style.opacity = (1 - smooth(range(position, 0.02, 0.12))).toFixed(3);
       }
 
       /* ----------------------------- playback ----------------------------- */
       let stageVisible = false;
-      function syncPlayback(chapter, fromUser = false) {
-        if (!chapter.video) return;
-        const p = eased - chapter.index;
-        const isLast = chapter.index === total - 1;
-        const inWindow = reduced
-          ? chapter.live
-          : p > -0.15 && (isLast || p < 0.97);
-        const shouldPlay = stageVisible && chapter.live && inWindow
-          && !chapter.userPaused && !document.hidden
-          && (!reduced || fromUser || chapter.userStarted);
-        const { video, toggle } = chapter;
-        if (reduced && fromUser) {
-          // With reduced motion, films only play when someone asks.
-          chapter.userStarted = !chapter.userStarted;
-          chapter.userPaused = !chapter.userStarted;
-          return syncPlayback(chapter);
-        }
-        video.dataset.wantPlay = shouldPlay ? "1" : "0";
-        if (shouldPlay && video.paused) {
-          video.play().catch(() => {});
-        } else if (!shouldPlay && !video.paused) {
-          video.pause();
-        }
-        const showPlay = chapter.userPaused || (reduced && !chapter.userStarted);
-        toggle.querySelector("span").textContent = showPlay ? "Play film" : "Pause film";
-        toggle.querySelector("svg").innerHTML = showPlay ? PLAY_ICON : PAUSE_ICON;
-        toggle.setAttribute("aria-pressed", String(!showPlay));
+      function syncPlayback(entry) {
+        if (!entry.video) return;
+        const shouldPlay = stageVisible && !document.hidden && !entry.userPaused
+          && (!reduced || entry.userStarted);
+        entry.video.dataset.wantPlay = shouldPlay ? "1" : "0";
+        if (shouldPlay && entry.video.paused) entry.video.play().catch(() => {});
+        else if (!shouldPlay && !entry.video.paused) entry.video.pause();
+        const showPlay = entry.userPaused || (reduced && !entry.userStarted);
+        entry.toggle.innerHTML = `<svg viewBox="0 0 12 12" aria-hidden="true">${showPlay ? PLAY_ICON : PAUSE_ICON}</svg><span>${showPlay ? "Play film" : "Pause film"}</span>`;
+        entry.toggle.setAttribute("aria-pressed", String(!showPlay));
       }
-
-      /* ------------------------------- HUD ------------------------------- */
-      let currentIndex = -1;
-      function setCurrent(index) {
-        if (index === currentIndex) return;
-        currentIndex = index;
-        const data = EXPERIENCES[index];
-        const palette = data.palette;
-        stage.style.setProperty("--xp-paper", palette.paper);
-        stage.style.setProperty("--xp-ink", palette.ink);
-        stage.style.setProperty("--xp-ink-soft", palette.inkSoft);
-        stage.style.setProperty("--xp-accent", palette.accent);
-        count.textContent = `${pad(index + 1)} / ${pad(total)}`;
-        countTitle.textContent = data.title;
-        indexButtons.forEach((button, buttonIndex) => {
-          button.setAttribute("aria-current", String(buttonIndex === index));
+      tiles.forEach((entry) => {
+        if (!entry.toggle) return;
+        entry.toggle.addEventListener("click", () => {
+          if (reduced) {
+            entry.userStarted = !entry.userStarted;
+            entry.userPaused = !entry.userStarted;
+            syncPlayback(entry);
+          }
         });
-        if (stageVisible) {
-          document.querySelector('meta[name="theme-color"]')?.setAttribute("content", palette.paper);
-        }
-      }
+        // If a browser refuses to autoplay, the first tap anywhere starts the films.
+        entry.video.addEventListener("loadeddata", () => syncPlayback(entry), { once: true });
+      });
+      const unlock = () => tiles.forEach(syncPlayback);
+      window.addEventListener("pointerdown", unlock, { once: true, passive: true });
 
+      /* ------------------------------ scrolling ------------------------------ */
       function trackMetrics() {
         const rect = track.getBoundingClientRect();
-        const travel = Math.max(1, rect.height - viewHeight);
-        return { rect, travel };
+        return { rect, travel: Math.max(1, rect.height - viewHeight) };
       }
 
       function goToExperience(index) {
         const { rect, travel } = trackMetrics();
         const top = rect.top + window.scrollY;
-        // Land where the film is already full-bleed with its caption showing.
-        const position = clamp((index + HOLD_POINT) / total, 0, 1);
-        window.scrollTo({ top: top + travel * position, behavior: reduced ? "auto" : "smooth" });
+        window.scrollTo({
+          top: top + travel * clamp((index + HOLD_POINT) / total, 0, 1),
+          behavior: reduced ? "auto" : "smooth"
+        });
       }
-
-      function setIndexOpen(open) {
-        indexPanel.classList.toggle("is-open", open);
-        indexToggle.setAttribute("aria-expanded", String(open));
-        indexToggle.textContent = open ? "Close" : "Index";
-        if (open) {
-          indexButtons[Math.max(0, currentIndex)]?.focus({ preventScroll: true });
-        }
-      }
-
-      indexToggle.addEventListener("click", () => {
-        const opening = !indexPanel.classList.contains("is-open");
-        setIndexOpen(opening);
-        if (!opening) indexToggle.focus({ preventScroll: true });
-      });
-      document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && indexPanel.classList.contains("is-open")) {
-          setIndexOpen(false);
-          indexToggle.focus({ preventScroll: true });
-        }
-      });
 
       document.querySelectorAll('.xp a[href="#books"]').forEach((link) => {
         link.addEventListener("click", (event) => {
           const books = document.querySelector("#books");
           if (!books) return;
           event.preventDefault();
-          window.scrollTo({
-            top: books.getBoundingClientRect().top + window.scrollY,
-            behavior: reduced ? "auto" : "smooth"
-          });
+          window.scrollTo({ top: books.getBoundingClientRect().top + window.scrollY, behavior: reduced ? "auto" : "smooth" });
         });
       });
 
-      /* ------------------------------- loop ------------------------------- */
       let eased = 0;
       let lastRendered = NaN;
       let lastTime = performance.now();
-
       function frame(time) {
         const delta = Math.min((time - lastTime) / 1000, 0.05);
         lastTime = time;
         viewHeight = stage.clientHeight || viewHeight;
         const { rect, travel } = trackMetrics();
-        const progress = clamp(-rect.top / travel, 0, 1);
-        const raw = progress * total;
+        const raw = clamp(-rect.top / travel, 0, 1) * total;
         const visible = rect.top < viewHeight && rect.bottom > 0;
-
         if (visible !== stageVisible) {
           stageVisible = visible;
           if (visible) {
             eased = raw;
             lastRendered = NaN;
           }
-          chapters.forEach((chapter) => syncPlayback(chapter));
+          tiles.forEach(syncPlayback);
         }
-
-        if (!visible) {
+        if (visible) {
+          const follow = narrow ? 4.2 : 6;
+          eased = reduced ? raw : lerp(eased, raw, 1 - Math.exp(-delta * follow));
+          if (Math.abs(eased - raw) < 0.0002) eased = raw;
+          if (eased !== lastRendered) {
+            lastRendered = eased;
+            render(eased);
+          }
+        } else {
           eased = raw;
-          requestAnimationFrame(frame);
-          return;
-        }
-
-        // Native scrolling is untouched; only the visual progress is smoothed.
-        // A slower follow on phones lets each swipe play out as one zoom.
-        const follow = narrow ? 4.2 : 6;
-        eased = reduced ? raw : lerp(eased, raw, 1 - Math.exp(-delta * follow));
-        if (Math.abs(eased - raw) < 0.0002) eased = raw;
-
-        if (eased !== lastRendered) {
-          lastRendered = eased;
-          const current = clamp(Math.floor(eased + 0.1), 0, total - 1);
-          chapters.forEach((chapter) => {
-            const p = eased - chapter.index;
-            const isLast = chapter.index === total - 1;
-            const live = reduced
-              ? chapter.index === current
-              : p > -0.3 && (isLast || p < 1);
-            if (!live) {
-              hideChapter(chapter);
-              return;
-            }
-            const wasLive = chapter.live;
-            renderChapter(chapter, p);
-            if (!wasLive) syncPlayback(chapter);
-          });
-          chapters.forEach((chapter) => {
-            if (chapter.live) syncPlayback(chapter);
-          });
-          setCurrent(current);
-          rail.style.transform = `scaleX(${progress.toFixed(4)})`;
-          hint.style.opacity = reduced ? "0" : String(1 - smooth(range(eased, 0.02, 0.1)));
         }
         requestAnimationFrame(frame);
       }
@@ -8389,20 +8104,17 @@
       });
       document.addEventListener("visibilitychange", () => {
         lastTime = performance.now();
-        chapters.forEach((chapter) => syncPlayback(chapter));
+        tiles.forEach(syncPlayback);
       });
       reducedQuery.addEventListener("change", (event) => {
         reduced = event.matches;
-        chapters.forEach((chapter) => {
-          chapter.userStarted = false;
-          hideChapter(chapter);
-        });
+        tiles.forEach(syncPlayback);
         lastRendered = NaN;
       });
 
       layout();
-      setTrackHeight();
-      setCurrent(0);
+      tiles.forEach(syncPlayback);
+      render(0);
       requestAnimationFrame(frame);
     })();
   </script>
