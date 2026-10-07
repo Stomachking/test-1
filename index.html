@@ -3051,7 +3051,59 @@
       overscroll-behavior: contain;
     }
 
+    /* Legibility over bright films: a dark gradient rises behind the
+       caption, and the text itself gets a soft shadow. */
+    .xp-caption::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: -38vh;
+      right: calc(-1 * (var(--xp-gutter) + env(safe-area-inset-right)));
+      bottom: calc(-1 * (var(--xp-gutter) + 6px + env(safe-area-inset-bottom)));
+      left: calc(-1 * (var(--xp-gutter) + env(safe-area-inset-left)));
+      background: linear-gradient(to top,
+        rgba(8, 10, 12, 0.86) 0%,
+        rgba(8, 10, 12, 0.72) 38%,
+        rgba(8, 10, 12, 0.32) 70%,
+        rgba(8, 10, 12, 0) 100%);
+      pointer-events: none;
+    }
+
+    .xp-caption {
+      text-shadow: 0 1px 14px rgba(0, 0, 0, 0.55), 0 1px 2px rgba(0, 0, 0, 0.45);
+    }
+
+    .xp-caption .xp-kicker {
+      color: color-mix(in srgb, var(--c-accent) 55%, #ffffff);
+    }
+
+    .xp-caption .xp-caption__text {
+      color: #f6f2ec;
+      padding-right: 10px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(246, 242, 236, 0.5) transparent;
+    }
+
+    .xp-caption .xp-caption__text.has-more {
+      -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+    }
+
+    .xp-caption .xp-caption__text::-webkit-scrollbar { width: 4px; }
+    .xp-caption .xp-caption__text::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background: rgba(246, 242, 236, 0.5);
+    }
+
+    .xp-caption dt {
+      color: rgba(246, 242, 236, 0.78);
+    }
+
     @media (max-width: 880px) {
+      .xp-caption::before {
+        top: -30vh;
+      }
+
       .xp-hud {
         align-items: flex-start;
       }
@@ -8440,7 +8492,7 @@
         const head = el("div");
         head.append(el("p", "xp-kicker", `${number} · ${data.place}`), el("h3", null, data.title));
         const side = el("div", "xp-caption__side");
-        side.append(el("p", null, data.description));
+        side.append(el("p", "xp-caption__text", data.description));
         const list = el("dl");
         data.details.forEach(([term, value]) => {
           const pair = el("div");
@@ -8967,6 +9019,19 @@
         if (Math.abs(event.deltaX) > Math.abs(event.deltaY) || Math.abs(event.deltaY) < 1) return;
         // Let panels with their own scrolling (book details, index) keep it.
         if (event.target.closest?.(".detail-panel, .xp-index")) return;
+        // A long place description scrolls first; once it reaches its end,
+        // the next wheel gesture moves on to the next stop.
+        const reader = event.target.closest?.(".xp-caption__text");
+        if (reader && reader.scrollHeight > reader.clientHeight + 1) {
+          const atEnd = event.deltaY > 0
+            ? reader.scrollTop + reader.clientHeight >= reader.scrollHeight - 1
+            : reader.scrollTop <= 0;
+          if (!atEnd) {
+            lastWheel = performance.now();
+            gestureUsed = true;
+            return;
+          }
+        }
 
         const now = performance.now();
         const newGesture = now - lastWheel > 220;
@@ -8980,9 +9045,11 @@
         const target = direction > 0
           ? list.find((stop) => stop > y + 2)
           : [...list].reverse().find((stop) => stop < y - 2);
-        // No stop that way, or the next one is more than a screen away
-        // (a tall section): scroll normally.
-        if (target === undefined || Math.abs(target - y) > viewHeight * 1.1) return;
+        // No stop that way, or a very tall free section: scroll normally.
+        // (Gaps up to a couple of screens, such as after the last place,
+        // still glide; leaving them to the browser let snapping pull the
+        // page straight back.)
+        if (target === undefined || Math.abs(target - y) > viewHeight * 2.6) return;
 
         event.preventDefault();
         if (gestureUsed || now < busyUntil) return;
@@ -9002,7 +9069,7 @@
           window.scrollTo(0, target);
           return;
         }
-        const duration = Math.min(1100, Math.max(720, 520 + Math.abs(distance) * 0.45));
+        const duration = Math.min(1300, Math.max(720, 520 + Math.abs(distance) * 0.45));
         busyUntil = performance.now() + duration;
         root.classList.add("is-free-scroll");
         const began = performance.now();
@@ -9018,6 +9085,17 @@
         };
         glide = requestAnimationFrame(tick);
       }
+      // Fade the bottom of a description while there is more to read.
+      function markMore(text) {
+        const more = text.scrollHeight > text.clientHeight + 1
+          && text.scrollTop + text.clientHeight < text.scrollHeight - 2;
+        text.classList.toggle("has-more", more);
+      }
+      document.addEventListener("scroll", (event) => {
+        if (event.target.classList?.contains("xp-caption__text")) markMore(event.target);
+      }, true);
+      setInterval(() => document.querySelectorAll(".xp-caption__text").forEach(markMore), 600);
+
       // Any direct input takes over from a glide in progress.
       ["touchstart", "pointerdown", "keydown"].forEach((type) => {
         window.addEventListener(type, () => {
