@@ -8599,19 +8599,19 @@
       let perspective = 1100;
       let narrow = viewWidth <= 880;
 
-      // Each place has two stops: the floating card, then the full-bleed film
-      // with its caption. The next swipe flies on to the following card.
+      // One stop per place: the full-bleed film with its caption. Each
+      // scroll flies out of one film and into the next.
       const HOLD_POINT = 0.62;
       const stops = [];
       function setTrackHeight() {
-        const segment = narrow ? 125 : 150;
+        const segment = narrow ? 95 : 100;
         const unit = CSS.supports("height", "1svh") ? "svh" : "vh";
         track.style.height = `calc(100vh + ${total * segment}vh)`;
         if (unit === "svh") track.style.height = `calc(100dvh + ${total * segment}svh)`;
-        if (stops.length !== total * 2) {
+        if (stops.length !== total) {
           stops.splice(0).forEach((stop) => stop.remove());
           for (let i = 0; i < total; i += 1) {
-            [0, HOLD_POINT].forEach((offset) => {
+            [HOLD_POINT].forEach((offset) => {
               const stop = el("span", "snap-stop");
               stop.setAttribute("aria-hidden", "true");
               stop.dataset.at = String(i + offset);
@@ -8879,7 +8879,7 @@
         // A slower follow on phones lets each swipe play out as one zoom.
         // Desktop scrolling already glides, so the 3D follows it closely;
         // phones keep a little extra easing on top of the native snap.
-        const follow = narrow ? 5 : 10;
+        const follow = narrow ? 9 : 22;
         eased = reduced ? raw : lerp(eased, raw, 1 - Math.exp(-delta * follow));
         if (Math.abs(eased - raw) < 0.0002) eased = raw;
 
@@ -9013,6 +9013,8 @@
         return [...new Set(list)].filter((y) => y >= 0).sort((a, b) => a - b);
       }
 
+      let lastDelta = 0;
+      let glideTarget = null;
       window.addEventListener("wheel", (event) => {
         if (event.ctrlKey || event.defaultPrevented) return;
         if (root.classList.contains("is-reading") || root.classList.contains("is-viewing")) return;
@@ -9028,38 +9030,50 @@
             : reader.scrollTop <= 0;
           if (!atEnd) {
             lastWheel = performance.now();
+            lastDelta = Math.abs(event.deltaY);
             gestureUsed = true;
             return;
           }
         }
 
+        // A new gesture: a pause in wheel events, or a fresh push while a
+        // trackpad's momentum is dying away.
         const now = performance.now();
-        const newGesture = now - lastWheel > 220;
+        const size = Math.abs(event.deltaY);
+        const direction = Math.sign(event.deltaY);
+        const newGesture = now - lastWheel > 160
+          || (size > 24 && size > lastDelta * 1.6)
+          || direction !== lastDirection;
         lastWheel = now;
+        lastDelta = size;
+        lastDirection = direction;
         if (newGesture) gestureUsed = false;
 
-        const y = window.scrollY;
         const viewHeight = window.innerHeight;
-        const direction = Math.sign(event.deltaY);
+        // Chain from where a glide is heading, so quick repeat scrolls
+        // move on immediately instead of being swallowed.
+        const from = glideTarget ?? window.scrollY;
         const list = stops();
         const target = direction > 0
-          ? list.find((stop) => stop > y + 2)
-          : [...list].reverse().find((stop) => stop < y - 2);
+          ? list.find((stop) => stop > from + 2)
+          : [...list].reverse().find((stop) => stop < from - 2);
         // No stop that way, or a very tall free section: scroll normally.
-        // (Gaps up to a couple of screens, such as after the last place,
-        // still glide; leaving them to the browser let snapping pull the
-        // page straight back.)
-        if (target === undefined || Math.abs(target - y) > viewHeight * 2.6) return;
+        if (target === undefined || Math.abs(target - from) > viewHeight * 2.6) {
+          if (glideTarget === null) return;
+          event.preventDefault();
+          return;
+        }
 
         event.preventDefault();
-        if (gestureUsed || now < busyUntil) return;
+        if (gestureUsed) return;
         gestureUsed = true;
         glideTo(target);
       }, { passive: false });
+      let lastDirection = 0;
 
-      // The browser's built-in smooth scroll is short and abrupt over a full
-      // screen, so steps glide with an ease-in-out of their own. Snapping is
-      // paused while gliding, or it would yank every intermediate frame.
+      // Steps glide with an ease of their own: quick off the mark, soft on
+      // landing. Snapping is paused while gliding, or it would yank every
+      // intermediate frame.
       let glide = 0;
       function glideTo(target) {
         cancelAnimationFrame(glide);
@@ -9067,19 +9081,22 @@
         const distance = target - start;
         if (reduced.matches || Math.abs(distance) < 2) {
           window.scrollTo(0, target);
+          glideTarget = null;
           return;
         }
-        const duration = Math.min(1300, Math.max(720, 520 + Math.abs(distance) * 0.45));
-        busyUntil = performance.now() + duration;
+        const duration = Math.min(820, Math.max(520, 380 + Math.abs(distance) * 0.3));
+        glideTarget = target;
         root.classList.add("is-free-scroll");
         const began = performance.now();
-        const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+        const ease = (t) => 1 - Math.pow(1 - t, 3.2);
         const tick = (time) => {
           const t = Math.min(1, (time - began) / duration);
           window.scrollTo(0, start + distance * ease(t));
           if (t < 1) {
             glide = requestAnimationFrame(tick);
           } else {
+            glide = 0;
+            glideTarget = null;
             root.classList.remove("is-free-scroll");
           }
         };
@@ -9102,7 +9119,7 @@
           if (!glide) return;
           cancelAnimationFrame(glide);
           glide = 0;
-          busyUntil = 0;
+          glideTarget = null;
           root.classList.remove("is-free-scroll");
         }, { passive: true });
       });
