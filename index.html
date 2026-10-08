@@ -8898,7 +8898,7 @@
       }
       function setTrackHeight() {
         planChapters();
-        const segment = narrow ? 95 : 100;
+        const segment = narrow ? 95 : 135;
         const unit = CSS.supports("height", "1svh") ? "svh" : "vh";
         track.style.height = `calc(100vh + ${totalSpan * segment}vh)`;
         if (unit === "svh") track.style.height = `calc(100dvh + ${totalSpan * segment}svh)`;
@@ -9245,7 +9245,7 @@
         // A slower follow on phones lets each swipe play out as one zoom.
         // Desktop scrolling already glides, so the 3D follows it closely;
         // phones keep a little extra easing on top of the native snap.
-        const follow = narrow ? 10 : 16;
+        const follow = narrow ? 10 : 30;
         eased = reduced || jumpVisuals ? raw : lerp(eased, raw, 1 - Math.exp(-delta * follow));
         jumpVisuals = false;
         if (Math.abs(eased - raw) < 0.0002) eased = raw;
@@ -9368,105 +9368,143 @@
     })();
   </script>
   <script>
-    // Free scrolling with a gentle settle. Scrolling is never intercepted:
-    // the page moves with every wheel, trackpad or key input, and the 3D and
-    // film scenes follow it directly. Once scrolling comes to rest, the page
-    // eases onto the nearest stop; any new input takes over at once.
+    // Smoothed scrolling. Every wheel and trackpad movement is applied at
+    // once and in proportion (nothing is locked or ignored), but the page
+    // glides towards it instead of jumping, so speed feels the same on a
+    // mouse and a trackpad. Touch, keyboard and scrollbar stay native.
     (() => {
       const root = document.documentElement;
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
       const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+      const SPEED = 0.85;      // share of each wheel movement applied
+      const MAX_STEP = 140;    // cap on a single wheel event (big flicks)
+      const SMOOTHING = 9;     // higher = tighter follow
 
-      function stops() {
-        const list = [...document.querySelectorAll(".snap-stop, .xp-intro, .xp-head, .xp-outro")]
-          .map((el) => Math.round(el.getBoundingClientRect().top + window.scrollY));
-        list.push(Math.round(root.scrollHeight - window.innerHeight));
-        return [...new Set(list)].filter((y) => y >= 0).sort((a, b) => a - b);
+      let target = window.scrollY;
+      let current = window.scrollY;
+      let running = false;
+      let ownScroll = false;
+      let lastTime = 0;
+
+      const maxScroll = () => root.scrollHeight - window.innerHeight;
+      const clampY = (y) => Math.max(0, Math.min(maxScroll(), y));
+
+      function scrollable(el, deltaY) {
+        // An element under the pointer that can still scroll that way keeps
+        // the wheel (a long description, the book panel, the index).
+        for (let node = el; node && node !== document.body && node !== root; node = node.parentElement) {
+          if (node.closest?.(".detail-panel, .xp-index")) return true;
+          const style = getComputedStyle(node);
+          if (!/(auto|scroll)/.test(style.overflowY) || node.scrollHeight <= node.clientHeight + 1) continue;
+          if (deltaY > 0 && node.scrollTop + node.clientHeight < node.scrollHeight - 1) return true;
+          if (deltaY < 0 && node.scrollTop > 0) return true;
+        }
+        return false;
       }
 
-      let glide = 0;
-      let gliding = false;
-      window.__glideTo = (target, options) => glideTo(target, options);
-      function glideTo(target, { duration: fixed } = {}) {
-        cancelAnimationFrame(glide);
-        const start = window.scrollY;
-        const distance = target - start;
-        if (reduced.matches || Math.abs(distance) < 2) {
-          window.scrollTo(0, target);
-          gliding = false;
+      window.addEventListener("wheel", (event) => {
+        if (!finePointer.matches || reduced.matches) return;
+        if (event.ctrlKey || event.defaultPrevented) return;
+        if (root.classList.contains("is-reading") || root.classList.contains("is-viewing")) return;
+        if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+        if (scrollable(event.target, event.deltaY)) return;
+        event.preventDefault();
+        const unit = event.deltaMode === 1 ? 40 : event.deltaMode === 2 ? window.innerHeight : 1;
+        let delta = event.deltaY * unit;
+        delta = Math.max(-MAX_STEP, Math.min(MAX_STEP, delta)) * SPEED;
+        if (!running) target = current = window.scrollY;
+        cancelTween();
+        target = clampY(target + delta);
+        start();
+      }, { passive: false });
+
+      function start() {
+        if (running) return;
+        running = true;
+        lastTime = performance.now();
+        requestAnimationFrame(step);
+      }
+      function step(time) {
+        if (!running) return;
+        const dt = Math.min(0.05, (time - lastTime) / 1000);
+        lastTime = time;
+        current += (target - current) * (1 - Math.exp(-SMOOTHING * dt));
+        if (Math.abs(target - current) < 0.4) current = target;
+        ownScroll = true;
+        window.scrollTo(0, current);
+        if (current === target) {
+          running = false;
+          scheduleRest();
           return;
         }
-        const duration = fixed || Math.min(900, Math.max(420, 300 + Math.abs(distance) * 0.5));
-        gliding = true;
+        requestAnimationFrame(step);
+      }
+
+      // Keyboard, scrollbar or anything else moving the page: follow it.
+      window.addEventListener("scroll", () => {
+        if (ownScroll) { ownScroll = false; return; }
+        if (!running && !tween) { target = current = window.scrollY; scheduleRest(); }
+      }, { passive: true });
+
+      // Tweens for jumps the page makes itself (clicking a place card).
+      let tween = 0;
+      function cancelTween() {
+        if (!tween) return;
+        cancelAnimationFrame(tween);
+        tween = 0;
+        if (!finePointer.matches) root.style.scrollSnapType = "";
+      }
+      window.__glideTo = (to, { duration } = {}) => {
+        running = false;
+        cancelTween();
+        const from = window.scrollY;
+        const distance = to - from;
+        if (reduced.matches || Math.abs(distance) < 2) {
+          window.scrollTo(0, to);
+          target = current = window.scrollY;
+          return;
+        }
         if (!finePointer.matches) root.style.scrollSnapType = "none";
+        const length = duration || Math.min(900, Math.max(450, 300 + Math.abs(distance) * 0.5));
         const began = performance.now();
         const ease = (t) => 1 - Math.pow(1 - t, 3);
         const tick = (time) => {
-          if (!gliding) return;
-          const t = Math.min(1, (time - began) / duration);
-          window.scrollTo(0, start + distance * ease(t));
+          const t = Math.min(1, (time - began) / length);
+          ownScroll = true;
+          window.scrollTo(0, from + distance * ease(t));
           if (t < 1) {
-            glide = requestAnimationFrame(tick);
+            tween = requestAnimationFrame(tick);
           } else {
-            stopGlide();
+            tween = 0;
+            target = current = window.scrollY;
+            if (!finePointer.matches) root.style.scrollSnapType = "";
           }
         };
-        glide = requestAnimationFrame(tick);
-      }
-      function stopGlide() {
-        cancelAnimationFrame(glide);
-        glide = 0;
-        gliding = false;
-        anchor = window.scrollY;
-        if (!finePointer.matches) root.style.scrollSnapType = "";
-      }
-
-      // Any direct input takes over from a glide immediately.
-      ["wheel", "touchstart", "pointerdown", "keydown"].forEach((type) => {
-        window.addEventListener(type, () => { if (gliding) stopGlide(); }, { passive: true });
+        tween = requestAnimationFrame(tick);
+      };
+      ["touchstart", "pointerdown", "keydown"].forEach((type) => {
+        window.addEventListener(type, () => {
+          cancelTween();
+          if (running) { running = false; target = current = window.scrollY; }
+        }, { passive: true });
       });
 
-      // Desktop settle: when scrolling has been still for a moment, ease
-      // onto the nearest stop if it is close. (Phones use native snapping.)
+      // When the page comes to rest very close to a scene, ease the last
+      // few pixels onto it. Never a jump: only within a short distance.
       let restTimer = 0;
-      window.addEventListener("scroll", () => {
-        if (gliding || !finePointer.matches) return;
+      function scheduleRest() {
+        if (!finePointer.matches) return;
         clearTimeout(restTimer);
-        restTimer = setTimeout(settle, 170);
-      }, { passive: true });
-      // Settle in the direction of travel: a small scroll (even one wheel
-      // click) carries on to the next stop rather than springing back.
-      let anchor = window.scrollY;
-      function settle() {
-        if (gliding) return;
-        if (root.classList.contains("is-reading") || root.classList.contains("is-viewing")) return;
-        const y = window.scrollY;
-        const view = window.innerHeight;
-        const list = stops();
-        const moved = y - anchor;
-        let target = null;
-        if (Math.abs(moved) > 40) {
-          target = moved > 0
-            ? list.find((stop) => stop >= y - 2)
-            : [...list].reverse().find((stop) => stop <= y + 2);
-          // The next stop that way is far off (a tall stretch such as the
-          // end of a section): leave the page where it was scrolled to.
-          if (target === undefined || Math.abs(target - y) > view * 1.05) {
-            anchor = y;
-            return;
-          }
-        }
-        if (target === null || target === undefined) {
+        restTimer = setTimeout(() => {
+          if (running || tween) return;
+          if (root.classList.contains("is-reading") || root.classList.contains("is-viewing")) return;
+          const y = window.scrollY;
+          const list = [...document.querySelectorAll(".xp .snap-stop")]
+            .map((el) => Math.round(el.getBoundingClientRect().top + y));
           const nearest = list.reduce((best, stop) => (Math.abs(stop - y) < Math.abs(best - y) ? stop : best), Infinity);
-          target = Math.abs(nearest - y) < view * 0.45 ? nearest : null;
-        }
-        if (target === null) {
-          anchor = y;
-          return;
-        }
-        anchor = target;
-        const gap = Math.abs(target - y);
-        if (gap > 2) glideTo(target, { duration: Math.min(800, 340 + gap * 0.7) });
+          const gap = Math.abs(nearest - y);
+          if (gap > 2 && gap < window.innerHeight * 0.14) window.__glideTo(nearest, { duration: 520 });
+        }, 260);
       }
 
       // Fade the bottom of a description while there is more to read.
