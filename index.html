@@ -9405,7 +9405,9 @@
           if (!atEnd) {
             lastWheel = performance.now();
             lastDelta = Math.abs(event.deltaY);
+            lastDirection = Math.sign(event.deltaY);
             gestureUsed = true;
+            carried = 0;
             return;
           }
         }
@@ -9417,10 +9419,14 @@
         const direction = Math.sign(event.deltaY);
         const newGesture = now - lastWheel > 200
           || (direction !== lastDirection && glideTarget === null);
+        const previousSize = lastDelta;
         lastWheel = now;
         lastDelta = size;
         lastDirection = direction;
-        if (newGesture) gestureUsed = false;
+        if (newGesture) {
+          gestureUsed = false;
+          carried = 0;
+        }
 
         const viewHeight = window.innerHeight;
         const from = glideTarget ?? window.scrollY;
@@ -9437,10 +9443,24 @@
 
         event.preventDefault();
         // Each scroll lands and stops before the next one counts.
-        if (gestureUsed || glideTarget !== null || now < settleUntil) return;
+        if (glideTarget !== null || now < settleUntil) return;
+        if (gestureUsed) {
+          // Still scrolling after landing: that is intent to keep going,
+          // so after a little more scrolling move on. (A trackpad's dying
+          // momentum adds up to far less than this, so it never skips.)
+          // Momentum fades event by event; only steady or rising input
+          // (a wheel still turning, a fresh swipe) counts.
+          if (size < previousSize) return;
+          const unit = event.deltaMode === 1 ? 40 : event.deltaMode === 2 ? window.innerHeight : 1;
+          carried += size * unit;
+          if (carried < KEEP_GOING) return;
+        }
         gestureUsed = true;
+        carried = 0;
         glideTo(target);
       }, { passive: false });
+      let carried = 0;
+      const KEEP_GOING = 240;
       let lastDirection = 0;
       let settleUntil = 0;
 
