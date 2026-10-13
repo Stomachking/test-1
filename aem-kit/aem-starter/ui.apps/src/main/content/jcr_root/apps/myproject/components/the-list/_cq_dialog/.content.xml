@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="The List"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content jcr:primaryType="nt:unstructured" sling:resourceType="granite/ui/components/coral/foundation/container">
+        <items jcr:primaryType="nt:unstructured">
+            <contentUrl jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                fieldLabel="Content JSON"
+                fieldDescription="The the-list.json file in the DAM (books, places, Picked by credits)."
+                rootPath="/content/dam"
+                name="./contentUrl"/>
+            <assetBase jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                fieldLabel="Asset folder"
+                fieldDescription="DAM folder holding covers/, media/ and stills/. Paths in the JSON are relative to it."
+                rootPath="/content/dam"
+                name="./assetBase"/>
+            <crossOrigin jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                fieldLabel="Assets on another domain"
+                fieldDescription="Choose 'anonymous' only if DAM files are served from a different domain that sends CORS headers."
+                name="./crossOrigin">
+                <items jcr:primaryType="nt:unstructured">
+                    <same jcr:primaryType="nt:unstructured" text="No (same domain)" value=""/>
+                    <anon jcr:primaryType="nt:unstructured" text="anonymous" value="anonymous"/>
+                </items>
+            </crossOrigin>
+            <threeModule jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                fieldLabel="three.js module (advanced)"
+                fieldDescription="Leave empty to load three.js 0.165 from jsDelivr. Set to 'three' when the page has an import map (see README)."
+                name="./threeModule"/>
+            <threeAddons jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                fieldLabel="three.js add-ons (advanced)"
+                fieldDescription="Leave empty for jsDelivr. Set to 'three/addons' with the import map."
+                name="./threeAddons"/>
+        </items>
+    </content>
+</jcr:root>

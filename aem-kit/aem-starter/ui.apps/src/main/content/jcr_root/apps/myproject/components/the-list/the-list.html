@@ -1,0 +1,241 @@
+<!--/*
+  The List - HTL for the component.
+  Dialog properties: assetBase, contentUrl, crossOrigin, threeModule, threeAddons.
+  In the page editor a simple placeholder is shown instead of the full experience.
+*/-->
+<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"></sly>
+<div data-sly-test="${wcmmode.edit}" class="cq-placeholder" style="padding:24px;border:1px dashed #999;font:14px sans-serif">
+  The List - immersive books and experiences. Preview the page to see it.
+  Content: ${properties.contentUrl || '/content/dam/the-list/the-list.json'}
+</div>
+<sly data-sly-test="${!wcmmode.edit}">
+<sly data-sly-call="${clientlib.css @ categories='myproject.the-list'}"></sly>
+<div class="the-list"
+     data-asset-base="${properties.assetBase || '/content/dam/the-list/' @ context='uri'}"
+     data-content-url="${properties.contentUrl || '/content/dam/the-list/the-list.json' @ context='uri'}"
+     data-cross-origin="${properties.crossOrigin @ context='attribute'}"
+     data-three-module="${properties.threeModule @ context='attribute'}"
+     data-three-addons="${properties.threeAddons @ context='attribute'}">
+  <section class="shelf-track" id="books" aria-label="Books">
+  <span class="snap-stop" aria-hidden="true" style="top: 0"></span>
+  <div class="experience" id="experience">
+    <div class="scene-shell">
+      <canvas id="scene" aria-hidden="true"></canvas>
+    </div>
+
+    <header class="editorial-header" aria-label="Collection">
+      <div class="editorial-identity">
+        <strong>The List</strong>
+        <span>Eleven books to explore</span>
+      </div>
+      <div class="editorial-index">
+        <span>Edition 02 · 2026</span>
+        <span id="palette-label">Epic Disruptions</span>
+        <a class="experiences-link" href="#experiences">Experiences <span aria-hidden="true">→</span></a>
+        <button class="mylist-pill" type="button" data-mylist-open aria-haspopup="dialog" aria-label="My List"><svg class="mylist-pill__icon" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5"></circle><path d="m5.2 8.2 1.9 1.9 3.8-4"></path></svg><span class="mylist-pill__label">My List</span> <span class="mylist-pill__count" data-mylist-count>0</span></button>
+      </div>
+    </header>
+
+    <div class="pointer-label" id="pointer-label" aria-hidden="true">
+      <span id="pointer-label-index">Volume 01</span>
+      <strong id="pointer-label-title">Epic Disruptions</strong>
+    </div>
+
+    <section class="browse-ui" id="browse-ui" aria-label="Shelf navigation">
+      <div class="selection">
+        <span class="counter" id="counter">01 / 11</span>
+        <div class="selection__copy">
+          <h1 class="selection__title" id="selection-title">Epic Disruptions</h1>
+          <p class="selection__note" id="selection-note">11 innovations that shaped our modern world</p>
+        </div>
+      </div>
+
+      <div class="browse-actions">
+        <button class="round-button" id="previous" type="button" aria-label="Previous volume">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m10.5 3.5-4.5 4.5 4.5 4.5"></path></svg>
+        </button>
+        <button class="text-button" id="inspect" type="button">Open</button>
+        <button class="round-button" id="next" type="button" aria-label="Next volume">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m5.5 3.5 4.5 4.5-4.5 4.5"></path></svg>
+        </button>
+      </div>
+
+      <nav class="index-nav" aria-label="Volume index">
+        <div class="markers" id="markers" role="tablist" aria-label="Choose a volume"></div>
+        <p class="microcopy">Drag · arrows · select</p>
+        <p class="swipe-hint" aria-hidden="true">Swipe sideways to browse · tap to open</p>
+      </nav>
+    </section>
+
+    <aside
+      class="detail-panel"
+      id="detail-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="detail-title"
+      aria-hidden="true"
+      inert
+    >
+      <button
+        class="sheet-handle"
+        id="sheet-handle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="detail-more"
+      >
+        <span class="sheet-handle__bar" aria-hidden="true"></span>
+        <span class="sheet-handle__label">About this book</span>
+      </button>
+      <button class="close-button" id="close-detail" type="button" aria-label="Return volume to shelf">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8M12 4l-8 8"></path></svg>
+      </button>
+      <p class="eyebrow" id="detail-eyebrow">Volume I · Scott D. Anthony</p>
+      <h2 class="detail-title" id="detail-title">Epic Disruptions</h2>
+      <p class="detail-blurb" id="detail-blurb"></p>
+      <p class="detail-author" id="detail-author"></p>
+      <div class="picked-by" id="detail-picked" hidden>
+        <span class="picked-by__mark" aria-hidden="true"></span>
+        <span class="picked-by__who">
+          <span class="picked-by__kicker">Picked by</span>
+          <strong class="picked-by__name"></strong>
+          <span class="picked-by__role"></span>
+        </span>
+        <span class="picked-by__note"></span>
+      </div>
+      <button class="mark-toggle" id="detail-mark" type="button" aria-pressed="false">
+        <span class="mark-toggle__box" aria-hidden="true"></span>
+        <span class="mark-toggle__label">I've read this</span>
+      </button>
+      <div class="detail-more" id="detail-more">
+      <p class="detail-deck" id="detail-deck">Epic Disruptions by Scott D. Anthony explores 11 breakthrough innovations—from the iPhone and transistor to disposable diapers and Julia Child’s first cookbook—that have transformed industries and society, including today’s AI revolution. Using clear examples and analysis, Anthony highlights the patterns and bold thinkers behind these world-changing ideas. This timely book gives innovators and business leaders practical insights into how true disruption happens and how it shapes our future.</p>
+
+      </div>
+      <button class="detail-readmore" id="detail-readmore" type="button" aria-controls="detail-more">Read more</button>
+      <div class="page-navigation" role="group" aria-label="Browse sample pages">
+        <button class="page-button" id="previous-page" type="button" aria-label="Previous sample page" disabled>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m10.5 3.5-4.5 4.5 4.5 4.5"></path></svg>
+        </button>
+        <p class="page-status" aria-live="off">
+          <strong id="page-label">Closed</strong>
+          <span id="page-counter">Click book to open</span>
+        </p>
+        <button class="page-button" id="next-page" type="button" aria-label="Next sample page" disabled>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m5.5 3.5 4.5 4.5-4.5 4.5"></path></svg>
+        </button>
+      </div>
+      <div class="detail-controls">
+        <p class="microcopy">Drag cover or click once to open · Background to orbit</p>
+        <div class="detail-buttons">
+          <button class="text-button reset-button" id="toggle-book" type="button" aria-pressed="false">Open book</button>
+          <button class="text-button reset-button" id="reset-view" type="button">Reset view</button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sr-only" id="live-region" aria-live="polite"></div>
+
+    <section class="static-fallback" id="static-fallback" aria-labelledby="fallback-title" hidden>
+      <div class="fallback__header">
+        <div>
+          <p class="fallback__kicker">The List · Static catalog</p>
+          <h2 id="fallback-title">Your book collection.</h2>
+        </div>
+        <p class="fallback__status" id="fallback-status">
+          The complete catalog remains readable while the interactive shelf is prepared.
+        </p>
+      </div>
+      <div class="fallback__grid" aria-label="Eleven uploaded books">
+  <article class="uploaded-book"><img data-cover="epic-disruptions" width="768" height="1167" decoding="async" alt="Epic Disruptions book cover"><strong>Epic Disruptions</strong><span>Scott D. Anthony</span><details class="uploaded-book__description"><summary>Description</summary><p>Epic Disruptions by Scott D. Anthony explores 11 breakthrough innovations—from the iPhone and transistor to disposable diapers and Julia Child’s first cookbook—that have transformed industries and society, including today’s AI revolution. Using clear examples and analysis, Anthony highlights the patterns and bold thinkers behind these world-changing ideas. This timely book gives innovators and business leaders practical insights into how true disruption happens and how it shapes our future.</p></details></article>
+  <article class="uploaded-book"><img data-cover="i-can-fit-that-in" width="768" height="1182" decoding="async" alt="I Can Fit That In book cover"><strong>I Can Fit That In</strong><span>Erin Coupe</span></article>
+  <article class="uploaded-book"><img data-cover="letters-from-the-edge" width="768" height="1161" decoding="async" alt="Letters from the Edge book cover"><strong>Letters from the Edge</strong><span>Jeff Wilser · The Explorers Club</span></article>
+  <article class="uploaded-book"><img data-cover="drive-different" width="768" height="700" decoding="async" alt="Drive Different book cover"><strong>Drive Different</strong><span>gestalten · Classic Driver</span></article>
+  <article class="uploaded-book"><img data-cover="you-already-know" width="768" height="1161" decoding="async" alt="You Already Know book cover"><strong>You Already Know</strong><span>Laura Huang</span></article>
+  <article class="uploaded-book"><img data-cover="leo" width="768" height="995" decoding="async" alt="Leo Villareal: Coding Light book cover"><strong>Leo Villareal: Coding Light</strong><span>Leo Villareal · Monacelli</span></article>
+  <article class="uploaded-book"><img data-cover="bobbi" width="768" height="1182" decoding="async" alt="Still Bobbi book cover"><strong>Still Bobbi</strong><span>Bobbi Brown</span></article>
+  <article class="uploaded-book"><img data-cover="1929" width="530" height="800" decoding="async" alt="1929 book cover"><strong>1929</strong><span>Andrew Ross Sorkin</span></article>
+  <article class="uploaded-book"><img data-cover="goat" width="768" height="1156" decoding="async" alt="G.O.A.T. Wisdom book cover"><strong>G.O.A.T. Wisdom</strong><span>Dr. Brent Ridge · Josh Kilmer-Purcell</span></article>
+  <article class="uploaded-book"><img data-cover="jordan" width="768" height="1024" decoding="async" alt="Air Jordan book cover"><strong>Air Jordan</strong><span>Adam Bradley · foreword by Michael Jordan</span></article>
+  <article class="uploaded-book"><img data-cover="ceo" width="768" height="1158" decoding="async" alt="A CEO for All Seasons book cover"><strong>A CEO for All Seasons</strong><span>Carolyn Dewar · Scott Keller · Vikram Malhotra · Kurt Strovink</span></article>
+  </div>
+      <div class="fallback__footer">
+        <span>Cover artwork supplied by the user. Book titles and artwork belong to their respective rights holders.</span>
+        <span>Product names are used editorially and remain the property of their respective owners.</span>
+      </div>
+    </section>
+
+    <div class="loading" id="loading" aria-live="polite">
+      <div class="loading__inner">
+        <div class="loading__mark" aria-hidden="true"></div>
+        <p>Binding the collection</p>
+      </div>
+    </div>
+  </div>
+  </section>
+  <a class="xp-teaser" id="xp-teaser" href="#experiences">
+    <span class="xp-teaser__text">
+      <span class="xp-teaser__kicker">Next · Experiences &amp; Wineries</span>
+      <strong><span class="xp-teaser__long">Seven experiences, three Napa wineries</span><span class="xp-teaser__short">7 experiences · 3 wineries</span></strong>
+    </span>
+    <span class="xp-teaser__films" aria-hidden="true"><span class="xp-teaser__film"><video muted loop playsinline autoplay preload="metadata" data-tl-poster="media/burgess-cellars.jpg"><source data-tl-src="media/burgess-cellars.mp4" type="video/mp4"></video></span><span class="xp-teaser__film"><video muted loop playsinline autoplay preload="metadata" data-tl-poster="media/museum-of-exploration.jpg"><source data-tl-src="media/museum-of-exploration.mp4" type="video/mp4"></video></span><span class="xp-teaser__film"><video muted loop playsinline autoplay preload="metadata" data-tl-poster="media/teamlab-phenomena.jpg"><source data-tl-src="media/teamlab-phenomena.mp4" type="video/mp4"></video></span></span>
+    <span class="xp-teaser__cue"><span>Scroll down</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5"/></svg></span>
+  </a>
+  <section class="xp" id="experiences" aria-labelledby="xp-intro-title">
+    <div class="xp-intro">
+      <div>
+        <div class="xp-tabs xp-tabs--intro" role="tablist" aria-label="Choose a collection">
+          <button type="button" role="tab" data-xp-group="experiences" aria-selected="true">Experiences</button>
+          <button type="button" role="tab" data-xp-group="wineries" aria-selected="false">Wineries</button>
+        </div>
+        <h2 id="xp-intro-title">Experiences</h2>
+        <p class="xp-intro__lede" id="xp-intro-lede">Cutting-edge experiences at the forefront of arts and culture</p>
+      </div>
+      <ol class="xp-contents" id="xp-contents"></ol>
+      <div class="xp-cue" aria-hidden="true">
+        <span></span>
+        <span class="xp-kicker">Scroll to enter</span>
+      </div>
+    </div>
+
+    <div class="xp-track" id="xp-track">
+      <div class="xp-stage" id="xp-stage">
+        <div class="xp-world" id="xp-world"></div>
+        <div id="xp-captions"></div>
+        <span class="xp-rail" id="xp-rail" aria-hidden="true"></span>
+        <div class="xp-hud">
+          <div class="xp-hud__brand">
+            <div class="xp-tabs xp-tabs--hud" role="tablist" aria-label="Choose a collection">
+              <button type="button" role="tab" data-xp-group="experiences" aria-selected="true">Experiences</button>
+              <button type="button" role="tab" data-xp-group="wineries" aria-selected="false">Wineries</button>
+            </div>
+            <a class="xp-kicker" href="#books" id="xp-to-books">↑ Back to the books</a>
+          </div>
+          <div class="xp-hud__right">
+            <p class="xp-counter xp-kicker" aria-live="polite">
+              <span id="xp-count">01 / 11</span>
+              <span id="xp-count-title"></span>
+            </p>
+            <button class="xp-pill mylist-pill mylist-pill--xp" type="button" data-mylist-open aria-haspopup="dialog" aria-label="My List"><svg class="mylist-pill__icon" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5"></circle><path d="m5.2 8.2 1.9 1.9 3.8-4"></path></svg><span class="mylist-pill__label">My List</span> <span class="mylist-pill__count" data-mylist-count>0</span></button>
+            <button class="xp-pill" type="button" id="xp-index-toggle" aria-expanded="false" aria-controls="xp-index">Index</button>
+          </div>
+        </div>
+        <p class="xp-hint xp-kicker" id="xp-hint" aria-hidden="true">Keep scrolling to step in</p>
+        <nav class="xp-index" id="xp-index" aria-label="All experiences">
+          <ol id="xp-index-list"></ol>
+        </nav>
+      </div>
+    </div>
+
+    <div class="xp-outro">
+      <div>
+        <button class="xp-switch" type="button" id="xp-outro-switch" data-target="wineries">See the wineries →</button>
+        <a class="xp-back" href="#books"><span aria-hidden="true">↑</span> Back to<br>the books</a>
+      </div>
+      <footer>
+        <span>The List · Edition 02 · 2026</span>
+        <span>Book titles, cover artwork, films and place names belong to their respective owners.</span>
+      </footer>
+    </div>
+  </section>
+</div>
+<sly data-sly-call="${clientlib.js @ categories='myproject.the-list'}"></sly>
+</sly>

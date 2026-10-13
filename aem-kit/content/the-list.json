@@ -1,0 +1,908 @@
+{
+  "_comment": "Content for The List. Paths are relative to the asset base set on the .the-list element (data-asset-base).",
+  "books": [
+    {
+      "id": "epic-disruptions",
+      "title": "Epic Disruptions",
+      "roman": "I",
+      "discipline": "Scott D. Anthony",
+      "note": "11 Innovations That Shaped Our Modern World",
+      "deck": "Epic Disruptions by Scott D. Anthony explores 11 breakthrough innovations—from the iPhone and transistor to disposable diapers and Julia Child’s first cookbook—that have transformed industries and society, including today’s AI revolution. Using clear examples and analysis, Anthony highlights the patterns and bold thinkers behind these world-changing ideas. This timely book gives innovators and business leaders practical insights into how true disruption happens and how it shapes our future.",
+      "binding": "Uploaded cover · rendered hardcover",
+      "format": "1200 × 1824 px cover · 3D presentation",
+      "theme": "11 Innovations That Shaped Our Modern World",
+      "motif": "Cover artwork",
+      "motifKey": "brackets",
+      "paletteLabel": "Epic Disruptions",
+      "color": "#151510",
+      "foil": "#f0613a",
+      "palette": {
+        "paper": "#141414",
+        "paperDeep": "#0b0b0b",
+        "paperPale": "#efe8da",
+        "ink": "#f1ebde",
+        "inkSoft": "#b5ada0",
+        "wall": "#141414",
+        "shelf": "#3a2118",
+        "shelfDark": "#1c0e0a",
+        "light": "#f4d7b9",
+        "fill": "#f06a3c"
+      },
+      "width": 1.0394736842105263,
+      "height": 1.5799999999999998,
+      "depth": 0.26,
+      "chapters": [
+        "About this volume",
+        "Cover details",
+        "Collection notes"
+      ],
+      "seed": 11,
+      "coverAspect": 0.6578947368421053,
+      "author": "Scott D. Anthony",
+      "blurb": "11 Innovations That Shaped Our Modern World",
+      "description": "*Epic Disruptions* by Scott D. Anthony explores 11 breakthrough innovations—from the iPhone and transistor to disposable diapers and Julia Child’s first cookbook—that have transformed industries and society, including today’s AI revolution. Using clear examples and analysis, Anthony highlights the patterns and bold thinkers behind these world-changing ideas. This timely book gives innovators and business leaders practical insights into how true disruption happens and how it shapes our future.",
+      "eyebrow": "",
+      "pickedBy": {
+        "name": "Senior Leader 1",
+        "role": "Title to come",
+        "note": "A line on why they chose it will appear here."
+      },
+      "coverKey": "epic-disruptions",
+      "cover": "covers/epic-disruptions.jpg"
+    },
+    {
+      "id": "i-can-fit-that-in",
+      "title": "I Can Fit That In",
+      "roman": "II",
+      "discipline": "Erin Coupe",
+      "note": "How Rituals Transform Your Life",
+      "deck": "Leadership coach, podcast host and former Fortune 100 executive Erin Coupe offers a new approach to burnout—energy leadership instead of time management. Drawing on neuroscience and her own corporate journey, Coupe shares daily practices, from morning grounding rituals to device boundaries and micro-renewals, that help readers show up with clarity, focus and presence. By highlighting rituals of successful executives across industries, she shows that real productivity and fulfillment come from directing your energy, not just managing your time.",
+      "binding": "Uploaded cover · rendered hardcover",
+      "format": "1200 × 1847 px cover · 3D presentation",
+      "theme": "How Rituals Transform Your Life",
+      "motif": "Cover artwork",
+      "motifKey": "paths",
+      "paletteLabel": "I Can Fit That In",
+      "color": "#009cce",
+      "foil": "#0b2a44",
+      "palette": {
+        "paper": "#0f4f8c",
+        "paperDeep": "#0a3a68",
+        "paperPale": "#dceefa",
+        "ink": "#f4f8fb",
+        "inkSoft": "#b7d1e6",
+        "wall": "#0f4f8c",
+        "shelf": "#3b2418",
+        "shelfDark": "#1c0f09",
+        "light": "#fff3c4",
+        "fill": "#6fc3ee"
+      },
+      "width": 0.9485652409312398,
+      "height": 1.46,
+      "depth": 0.29,
+      "chapters": [
+        "About this volume",
+        "Cover details",
+        "Collection notes"
+      ],
+      "seed": 22,
+      "coverAspect": 0.6497022198159177,
+      "author": "Erin Coupe",
+      "blurb": "How Rituals Transform Your Life",
+      "description": "Leadership coach, podcast host and former Fortune 100 executive Erin Coupe offers a new approach to burnout—energy leadership instead of time management. Drawing on neuroscience and her own corporate journey, Coupe shares daily practices, from morning grounding rituals to device boundaries and micro-renewals, that help readers show up with clarity, focus and presence. By highlighting rituals of successful executives across industries, she shows that real productivity and fulfillment come from directing your energy, not just managing your time.",
+      "eyebrow": "",
+      "pickedBy": {
+        "name": "Senior Leader 2",
+        "role": "Title to come",
+        "note": "A line on why they chose it will appear here."
+      },
+      "coverKey": "i-can-fit-that-in",
+      "cover": "covers/i-can-fit-that-in.jpg"
+    },
+    {
+      "id": "letters-from-the-edge",
+      "title": "Letters from the Edge",
+      "roman": "III",
+      "discipline": "Jeff Wilser",
+      "note": "Stories of Curiosity, Bravery, and Discovery",
+      "deck": "Letters from the Edge is a collection of letters, emails, interviews, field journals and other firsthand accounts from members of The Explorers Club, chronicling a century of daring adventures. From surviving volcanic eruptions in Australia to rescuing children from flooded caves in Thailand and diving to the wreck of the Titanic, these stories capture the courage, curiosity and resilience behind exploration. Letters from the Edge inspires readers to cultivate a spirit of adventure in their own lives.",
+      "binding": "Uploaded cover · rendered hardcover",
+      "format": "1200 × 1814 px cover · 3D presentation",
+      "theme": "Stories of Curiosity, Bravery, and Discovery",
+      "motif": "Cover artwork",
+      "motifKey": "caret",
+      "paletteLabel": "Letters from the Edge",
+      "color": "#865c3b",
+      "foil": "#f3e6d6",
+      "palette": {
+        "paper": "#2a1f1a",
+        "paperDeep": "#1c1410",
+        "paperPale": "#f3e6d6",
+        "ink": "#f6ecdf",
+        "inkSoft": "#c9b29a",
+        "wall": "#2a1f1a",
+        "shelf": "#3b2418",
+        "shelfDark": "#1c0f09",
+        "light": "#ffcf9a",
+        "fill": "#e8955a"
+      },
+      "width": 1.0055126791620728,
+      "height": 1.52,
+      "depth": 0.22,
+      "chapters": [
+        "About this volume",
+        "Cover details",
+        "Collection notes"
+      ],
+      "seed": 33,
+      "coverAspect": 0.6615214994487321,
+      "author": "Jeff Wilser",
+      "blurb": "Stories of Curiosity, Bravery, and Discovery",
+      "description": "*Letters from the Edge* is a collection of letters, emails, interviews, field journals and other firsthand accounts from members of The Explorers Club, chronicling a century of daring adventures. From surviving volcanic eruptions in Australia to rescuing children from flooded caves in Thailand and diving to the wreck of the Titanic, these stories capture the courage, curiosity and resilience behind exploration. *Letters from the Edge* inspires readers to cultivate a spirit of adventure in their own lives.",
+      "eyebrow": "The Explorers Club Presents",
+      "pickedBy": {
+        "name": "Senior Leader 3",
+        "role": "Title to come",
+        "note": "A line on why they chose it will appear here."
+      },
+      "coverKey": "letters-from-the-edge",
+      "cover": "covers/letters-from-the-edge.jpg"
+    },
+    {
+      "id": "drive-different",
+      "title": "Drive Different",
+      "roman": "IV",
+      "discipline": "gestalten and Classic Driver",
+      "note": "Restomods and Iconic Automobiles Reimagined",
+      "deck": "Drive Different is a visually striking book about the “restomod” movement, which seeks to rebuild classic cars with modern engineering and performance. Featuring unique custom builds, the book shows how the essence of older cars can be preserved while enhancing their speed and drivability. Perfect for car enthusiasts and designers who appreciate both history and cutting-edge technology, Drive Different celebrates the delicate balance between restoration and reinvention.",
+      "binding": "Uploaded cover · rendered hardcover",
+      "format": "1200 × 1094 px cover · 3D presentation",
+      "theme": "Restomods and Iconic Automobiles Reimagined",
+      "motif": "Cover artwork",
+      "motifKey": "orbits",
+      "paletteLabel": "Drive Different",
+      "color": "#e41d22",
+      "foil": "#f6f2ee",
+      "palette": {
+        "paper": "#1a1212",
+        "paperDeep": "#100a0a",
+        "paperPale": "#f6e3e1",
+        "ink": "#f7efed",
+        "inkSoft": "#c4a9a6",
+        "wall": "#1a1212",
+        "shelf": "#3b2117",
+        "shelfDark": "#1a0d08",
+        "light": "#ffd9d2",
+        "fill": "#e5242a"
+      },
+      "width": 1.12,
+      "height": 1.0210666666666668,
+      "depth": 0.25,
+      "chapters": [
+        "About this volume",
+        "Cover details",
+        "Collection notes"
+      ],
+      "seed": 44,
+      "coverAspect": 1.0968921389396709,
+      "author": "gestalten and Classic Driver",
+      "blurb": "Restomods and Iconic Automobiles Reimagined",
+      "description": "*Drive Different* is a visually striking book about the “restomod” movement, which seeks to rebuild classic cars with modern engineering and performance. Featuring unique custom builds, the book shows how the essence of older cars can be preserved while enhancing their speed and drivability. Perfect for car enthusiasts and designers who appreciate both history and cutting-edge technology, *Drive Different* celebrates the delicate balance between restoration and reinvention.",
+      "eyebrow": "",
+      "pickedBy": {
+        "name": "Senior Leader 4",
+        "role": "Title to come",
+        "note": "A line on why they chose it will appear here."
+      },
+      "coverKey": "drive-different",
+      "cover": "covers/drive-different.jpg"
+    },
+    {
+      "id": "you-already-know",
+      "title": "You Already Know",
+      "roman": "V",
+      "discipline": "Laura Huang",
+      "note": "The Science of Mastering your Intuition",
+      "deck": "Laura Huang, distinguished business school professor, argues that intuition is the secret edge of the world’s most successful people, from Olympic athletes to top entrepreneurs. Using research and interviews, Huang explains the science behind gut feelings, and shares practical exercises for turning a hunch into a reliable tool for making better decisions, boldly. As the world gets noisier, her insights help readers trust their instincts and reach their biggest goals.",
+      "binding": "Uploaded cover · rendered hardcover",
+      "format": "1200 × 1814 px cover · 3D presentation",
+      "theme": "The Science of Mastering your Intuition",
+      "motif": "Cover artwork",
+      "motifKey": "modules",
+      "paletteLabel": "You Already Know",
+      "color": "#00acd0",
+      "foil": "#0e1a1f",
+      "palette": {
+        "paper": "#0b5f7a",
+        "paperDeep": "#08465b",
+        "paperPale": "#dff5fb",
+        "ink": "#f2fbfd",
+        "inkSoft": "#a9dcea",
+        "wall": "#0b5f7a",
+        "shelf": "#3a2117",
+        "shelfDark": "#1b0e09",
+        "light": "#e9fbff",
+        "fill": "#62d6f0"
+      },
+      "width": 0.9790518191841234,
+      "height": 1.48,
+      "depth": 0.3,
+      "chapters": [
+        "About this volume",
+        "Cover details",
+        "Collection notes"
+      ],
+      "seed": 55,
+      "coverAspect": 0.6615214994487321,
+      "author": "Laura Huang",
+      "blurb": "The Science of Mastering your Intuition",
+      "description": "Laura Huang, distinguished business school professor, argues that intuition is the secret edge of the world’s most successful people, from Olympic athletes to top entrepreneurs. Using research and interviews, Huang explains the science behind gut feelings, and shares practical exercises for turning a hunch into a reliable tool for making better decisions, boldly. As the world gets noisier, her insights help readers trust their instincts and reach their biggest goals.",
+      "eyebrow": "",
+      "pickedBy": {
+        "name": "Senior Leader 5",
+        "role": "Title to come",
+        "note": "A line on why they chose it will appear here."
+      },
+      "coverKey": "you-already-know",
+      "cover": "covers/you-already-know.jpg"
+    },
+    {
+      "id": "leo",
+      "title": "Leo Villareal: Coding Light",
+      "roman": "VI",
+      "discipline": "Molly Donovan and Annie Dell’Aria, and an interview with Sarah Sze",
+      "note": "by Molly Donovan and Annie Dell’Aria, and an interview with Sarah Sze",
+      "deck": "Leo Villareal highlights over two decades of work by the artist known for turning code into dazzling light installations. Featuring more than 30 pieces—such as the installations Cosmos at Cornell and London’s Illuminated River—the book shows how Villareal uses cutting-edge technology to explore ideas about chance, rules and the underlying structure of systems. His newest artwork, the light installation Celestial Passage, illuminates the crown of JPMorganChase’s new 270 Park headquarters nightly, and is visible throughout all five New York City boroughs.",
+      "binding": "Uploaded cover · rendered hardcover",
+      "format": "1200 × 1554 px cover · 3D presentation",
+      "theme": "Leo Villareal: Coding Light",
+      "motif": "Cover artwork",
+      "motifKey": "frames",
+      "paletteLabel": "Leo Villareal: Coding Light",
+      "color": "#42227a",
+      "foil": "#ff8eab",
+      "palette": {
+        "paper": "#2e1757",
+        "paperDeep": "#1f0f3d",
+        "paperPale": "#efe3fb",
+        "ink": "#f7f0fd",
+        "inkSoft": "#c9b6e4",
+        "wall": "#2e1757",
+        "shelf": "#3a2016",
+        "shelfDark": "#1b0e09",
+        "light": "#ffc9da",
+        "fill": "#ff8eab"
+      },
+      "width": 1.12,
+      "height": 1.4504000000000001,
+      "depth": 0.24,
+      "chapters": [
+        "About this volume",
+        "Cover details",
+        "Collection notes"
+      ],
+      "seed": 66,
+      "coverAspect": 0.7722007722007722,
+      "author": "Molly Donovan and Annie Dell’Aria, and an interview with Sarah Sze",
+      "blurb": "",
+      "description": "*Leo Villareal* highlights over two decades of work by the artist known for turning code into dazzling light installations. Featuring more than 30 pieces—such as the installations *Cosmos* at Cornell and London’s *Illuminated River*—the book shows how Villareal uses cutting-edge technology to explore ideas about chance, rules and the underlying structure of systems. His newest artwork, the light installation *Celestial Passage*, illuminates the crown of JPMorganChase’s new 270 Park headquarters nightly, and is visible throughout all five New York City boroughs.",
+      "eyebrow": "",
+      "pickedBy": {
+        "name": "Senior Leader 6",
+        "role": "Title to come",
+        "note": "A line on why they chose it will appear here."
+      },
+      "coverKey": "leo",
+      "cover": "covers/leo.jpg"
+    },
+    {
+      "id": "bobbi",
+      "title": "Still Bobbi",
+      "roman": "VII",
+      "discipline": "Bobbi Brown",
+      "note": "A Master Class in Resilience and Reinvention",
+      "deck": "Still Bobbi is the first memoir from beauty icon Bobbi Brown, tracing her path from the suburbs to founding two major beauty brands—Bobbi Brown Cosmetics and, later, the clean beauty brand Jones Road. Sharing honest stories from her incredible career, Brown reveals how she changed the industry by championing natural beauty and authenticity. Her memoir offers practical advice and encouragement for anyone ready to embrace their potential and confidently start a new chapter.",
+      "binding": "Uploaded cover · rendered hardcover",
+      "format": "1200 × 1847 px cover · 3D presentation",
+      "theme": "A Master Class in Resilience and Reinvention",
+      "motif": "Cover artwork",
+      "motifKey": "compass",
+      "paletteLabel": "Still Bobbi",
+      "color": "#f5f5f2",
+      "foil": "#d7262d",
+      "palette": {
+        "paper": "#ebe7e2",
+        "paperDeep": "#d9d3cc",
+        "paperPale": "#faf8f5",
+        "ink": "#15213c",
+        "inkSoft": "#4c566c",
+        "wall": "#ebe7e2",
+        "shelf": "#382017",
+        "shelfDark": "#1b0e09",
+        "light": "#fff6ee",
+        "fill": "#f1d6d0"
+      },
+      "width": 1.0590146182999458,
+      "height": 1.63,
+      "depth": 0.28,
+      "chapters": [
+        "About this volume",
+        "Cover details",
+        "Collection notes"
+      ],
+      "seed": 77,
+      "coverAspect": 0.6497022198159177,
+      "author": "Bobbi Brown",
+      "blurb": "A Master Class in Resilience and Reinvention",
+      "description": "*Still Bobbi* is the first memoir from beauty icon Bobbi Brown, tracing her path from the suburbs to founding two major beauty brands—Bobbi Brown Cosmetics and, later, the clean beauty brand Jones Road. Sharing honest stories from her incredible career, Brown reveals how she changed the industry by championing natural beauty and authenticity. Her memoir offers practical advice and encouragement for anyone ready to embrace their potential and confidently start a new chapter.",
+      "eyebrow": "",
+      "pickedBy": {
+        "name": "Senior Leader 7",
+        "role": "Title to come",
+        "note": "A line on why they chose it will appear here."
+      },
+      "coverKey": "bobbi",
+      "cover": "covers/bobbi.jpg"
+    },
+    {
+      "id": "1929",
+      "title": "1929",
+      "roman": "VIII",
+      "discipline": "Andrew Ross Sorkin",
+      "note": "Inside the Greatest Crash in Wall Street History—And How It Shattered a Nation",
+      "deck": "1929 is a sweeping account of the personalities, ambitions and misjudgments that led to the Great Crash. Drawing on hundreds of fascinating sources, including newly uncovered documents, Sorkin brings to life the financiers, politicians and everyday figures caught in the market’s rise and fall. It’s both a vivid portrait of an extraordinary moment in American history and a study of how optimism and excess can shape—and unravel—an era.",
+      "binding": "Uploaded cover · rendered hardcover",
+      "format": "530 × 800 px cover · 3D presentation",
+      "theme": "Inside the Greatest Crash in Wall Street History—And How It Shattered a Nation",
+      "motif": "Cover artwork",
+      "motifKey": "brackets",
+      "paletteLabel": "1929",
+      "color": "#ef1724",
+      "foil": "#ffffff",
+      "palette": {
+        "paper": "#8f1118",
+        "paperDeep": "#6b0b11",
+        "paperPale": "#fbe3e3",
+        "ink": "#fff4f2",
+        "inkSoft": "#f0b8b5",
+        "wall": "#8f1118",
+        "shelf": "#3a2118",
+        "shelfDark": "#1c0e0a",
+        "light": "#ffd9cf",
+        "fill": "#ff5a5f"
+      },
+      "width": 1.04675,
+      "height": 1.58,
+      "depth": 0.26,
+      "chapters": [
+        "About this volume",
+        "Cover details",
+        "Collection notes"
+      ],
+      "seed": 88,
+      "coverAspect": 0.6625,
+      "author": "Andrew Ross Sorkin",
+      "blurb": "Inside the Greatest Crash in Wall Street History—And How It Shattered a Nation",
+      "description": "*1929* is a sweeping account of the personalities, ambitions and misjudgments that led to the Great Crash. Drawing on hundreds of fascinating sources, including newly uncovered documents, Sorkin brings to life the financiers, politicians and everyday figures caught in the market’s rise and fall. It’s both a vivid portrait of an extraordinary moment in American history and a study of how optimism and excess can shape—and unravel—an era.",
+      "eyebrow": "",
+      "pickedBy": {
+        "name": "Senior Leader 8",
+        "role": "Title to come",
+        "note": "A line on why they chose it will appear here."
+      },
+      "coverKey": "1929",
+      "cover": "covers/1929.jpg"
+    },
+    {
+      "id": "goat",
+      "title": "G.O.A.T. Wisdom",
+      "roman": "IX",
+      "discipline": "Dr. Brent Ridge and Josh Kilmer-Purcell",
+      "note": "How to Build a Truly Great Business—From the Founders of Beekman 1802",
+      "deck": "G.O.A.T. Wisdom shares 12 timeless principles for building a meaningful business, as discovered by the founders of goat milk–based skincare company Beekman 1802 on their entrepreneurial journey of turning a small rural business into a global brand. Dr. Brent Ridge and Josh Kilmer-Purcell offer practical lessons rooted in family values and customer devotion that helped them grow from selling soap locally in Upstate New York to merchandising their products worldwide. Their guide gives entrepreneurs from all backgrounds the tools and confidence to build a meaningful business.",
+      "binding": "Uploaded cover · rendered hardcover",
+      "format": "1200 × 1807 px cover · 3D presentation",
+      "theme": "How to Build a Truly Great Business—From the Founders of Beekman 1802",
+      "motif": "Cover artwork",
+      "motifKey": "paths",
+      "paletteLabel": "G.O.A.T. Wisdom",
+      "color": "#f7ef00",
+      "foil": "#1d1c14",
+      "palette": {
+        "paper": "#1d1c14",
+        "paperDeep": "#12110b",
+        "paperPale": "#fbf6c8",
+        "ink": "#f8f3d6",
+        "inkSoft": "#c8c29a",
+        "wall": "#1d1c14",
+        "shelf": "#3b2418",
+        "shelfDark": "#1c0f09",
+        "light": "#fff6b0",
+        "fill": "#e9de2a"
+      },
+      "width": 0.96956281128943,
+      "height": 1.46,
+      "depth": 0.29,
+      "chapters": [
+        "About this volume",
+        "Cover details",
+        "Collection notes"
+      ],
+      "seed": 99,
+      "coverAspect": 0.6640841173215274,
+      "author": "Dr. Brent Ridge and Josh Kilmer-Purcell",
+      "blurb": "How to Build a Truly Great Business—From the Founders of Beekman 1802",
+      "description": "*G.O.A.T. Wisdom* shares 12 timeless principles for building a meaningful business, as discovered by the founders of goat milk–based skincare company Beekman 1802 on their entrepreneurial journey of turning a small rural business into a global brand. Dr. Brent Ridge and Josh Kilmer-Purcell offer practical lessons rooted in family values and customer devotion that helped them grow from selling soap locally in Upstate New York to merchandising their products worldwide. Their guide gives entrepreneurs from all backgrounds the tools and confidence to build a meaningful business.",
+      "eyebrow": "",
+      "pickedBy": {
+        "name": "Senior Leader 9",
+        "role": "Title to come",
+        "note": "A line on why they chose it will appear here."
+      },
+      "coverKey": "goat",
+      "cover": "covers/goat.jpg"
+    },
+    {
+      "id": "jordan",
+      "title": "Air Jordan",
+      "roman": "X",
+      "discipline": "Adam Bradley, with a foreword by Michael Jordan",
+      "note": "by Adam Bradley, with a foreword by Michael Jordan",
+      "deck": "Luxury book publisher Assouline’s tribute to Michael Jordan and his sportswear line Jordan Brand celebrates 40 years of achievement, innovation and cultural influence. Through photos and stories from the worlds of sports, business and design, author Adam Bradley shows how Air Jordans grew into a global icon, changing style and athletic standards. With rare items from Michael Jordan’s personal archives published for the first time, the book highlights how his drive, business vision and generosity have inspired people to pursue greatness in sports, business and life.",
+      "binding": "Uploaded cover · rendered hardcover",
+      "format": "1200 × 1600 px cover · 3D presentation",
+      "theme": "Air Jordan",
+      "motif": "Cover artwork",
+      "motifKey": "caret",
+      "paletteLabel": "Air Jordan",
+      "color": "#bdbdbb",
+      "foil": "#141414",
+      "palette": {
+        "paper": "#e4e3e0",
+        "paperDeep": "#cfcdc9",
+        "paperPale": "#f7f6f4",
+        "ink": "#141414",
+        "inkSoft": "#5a5a58",
+        "wall": "#e4e3e0",
+        "shelf": "#2e2a27",
+        "shelfDark": "#161311",
+        "light": "#ffffff",
+        "fill": "#b9b9b6"
+      },
+      "width": 1.12,
+      "height": 1.4933333333333334,
+      "depth": 0.22,
+      "chapters": [
+        "About this volume",
+        "Cover details",
+        "Collection notes"
+      ],
+      "seed": 110,
+      "coverAspect": 0.75,
+      "author": "Adam Bradley, with a foreword by Michael Jordan",
+      "blurb": "",
+      "description": "Luxury book publisher Assouline’s tribute to Michael Jordan and his sportswear line Jordan Brand celebrates 40 years of achievement, innovation and cultural influence. Through photos and stories from the worlds of sports, business and design, author Adam Bradley shows how Air Jordans grew into a global icon, changing style and athletic standards. With rare items from Michael Jordan’s personal archives published for the first time, the book highlights how his drive, business vision and generosity have inspired people to pursue greatness in sports, business and life.",
+      "eyebrow": "",
+      "pickedBy": {
+        "name": "Senior Leader 10",
+        "role": "Title to come",
+        "note": "A line on why they chose it will appear here."
+      },
+      "coverKey": "jordan",
+      "cover": "covers/jordan.jpg"
+    },
+    {
+      "id": "ceo",
+      "title": "A CEO for All Seasons",
+      "roman": "XI",
+      "discipline": "Carolyn Dewar, Scott Keller, Vikram Malhotra, Kurt Strovink",
+      "note": "Mastering the Cycles of Leadership",
+      "deck": "McKinsey & Company’s guide shares advice from top leaders to help CEOs succeed at every stage, from getting started to leaving a legacy. Using insights from well-known executives and analysis of the top 200 CEOs—including leaders at Dell Technologies, NASDAQ and JPMorganChase—the book outlines key challenges and proven strategies for strong corporate leadership. It’s a must-read for aspiring CEOs, new leaders and board members, offering practical tips and pointing out common mistakes to help drive lasting success.",
+      "binding": "Uploaded cover · rendered hardcover",
+      "format": "1200 × 1810 px cover · 3D presentation",
+      "theme": "Mastering the Cycles of Leadership",
+      "motif": "Cover artwork",
+      "motifKey": "orbits",
+      "paletteLabel": "A CEO for All Seasons",
+      "color": "#092c2b",
+      "foil": "#d8b25c",
+      "palette": {
+        "paper": "#0d1617",
+        "paperDeep": "#070e0f",
+        "paperPale": "#e9f2ee",
+        "ink": "#eef3ef",
+        "inkSoft": "#9fb3b0",
+        "wall": "#0d1617",
+        "shelf": "#3b2117",
+        "shelfDark": "#1a0d08",
+        "light": "#f3d7a0",
+        "fill": "#2fb5a6"
+      },
+      "width": 1.1138121546961326,
+      "height": 1.6800000000000002,
+      "depth": 0.25,
+      "chapters": [
+        "About this volume",
+        "Cover details",
+        "Collection notes"
+      ],
+      "seed": 121,
+      "coverAspect": 0.6629834254143646,
+      "author": "Carolyn Dewar, Scott Keller, Vikram Malhotra, Kurt Strovink",
+      "blurb": "Mastering the Cycles of Leadership",
+      "description": "McKinsey & Company’s guide shares advice from top leaders to help CEOs succeed at every stage, from getting started to leaving a legacy. Using insights from well-known executives and analysis of the top 200 CEOs—including leaders at Dell Technologies, NASDAQ and JPMorganChase—the book outlines key challenges and proven strategies for strong corporate leadership. It’s a must-read for aspiring CEOs, new leaders and board members, offering practical tips and pointing out common mistakes to help drive lasting success.",
+      "eyebrow": "",
+      "pickedBy": {
+        "name": "Senior Leader 11",
+        "role": "Title to come",
+        "note": "A line on why they chose it will appear here."
+      },
+      "coverKey": "ceo",
+      "cover": "covers/ceo.jpg"
+    }
+  ],
+  "groups": [
+    {
+      "id": "experiences",
+      "label": "Experiences",
+      "tagline": "Cutting-edge experiences at the forefront of arts and culture",
+      "items": [
+        {
+          "title": "teamLab Phenomena",
+          "pickedBy": {
+            "name": "Senior Leader 12",
+            "role": "Title to come",
+            "note": "A line on why they chose it will appear here."
+          },
+          "kind": "Immersive art",
+          "place": "Abu Dhabi, United Arab Emirates",
+          "description": "teamLab Phenomena Abu Dhabi offers a groundbreaking immersive art experience in which visitors enter a world of changing artworks that respond to movement, light and sound. Created by the internationally known art collective teamLab, this large, interactive space invites guests of all ages to explore the boundaries between art, technology and nature, encouraging curiosity, play and wonder throughout. Located in Abu Dhabi’s Saadiyat Cultural District, teamLab Phenomena is a must-visit for anyone seeking inspiration and innovation in the heart of the United Arab Emirates.",
+          "details": [
+            [
+              "Type",
+              "Immersive art"
+            ],
+            [
+              "Location",
+              "Abu Dhabi, UAE"
+            ]
+          ],
+          "film": {
+            "mp4": "media/teamlab-phenomena.mp4",
+            "poster": "media/teamlab-phenomena.jpg",
+            "thumb": "stills/teamlab-phenomena.jpg",
+            "label": "Aerial footage of the white, cloud-like teamLab Phenomena building on the water",
+            "scenes": [
+              [
+                1,
+                3
+              ],
+              [
+                3,
+                7
+              ],
+              [
+                7,
+                8.5
+              ],
+              [
+                8.5,
+                10
+              ]
+            ]
+          },
+          "palette": {
+            "paper": "#e6eeec",
+            "ink": "#10211f",
+            "inkSoft": "#4d625f",
+            "accent": "#1f9e94"
+          }
+        },
+        {
+          "title": "National Geographic Museum of Exploration",
+          "pickedBy": {
+            "name": "Senior Leader 13",
+            "role": "Title to come",
+            "note": "A line on why they chose it will appear here."
+          },
+          "kind": "Museum",
+          "place": "Washington, DC",
+          "description": "The National Geographic Museum of Exploration, opening in 2026, is a one-of-a-kind destination for explorers of all ages. With immersive exhibits and advanced technology, visitors go on exciting journeys across wildlife, landscapes, cultures and communities, experiencing the wonder of our planet in new ways. Designed to spark curiosity and expand the spirit of discovery, the museum serves as an open invitation to join National Geographic’s legacy of exploration and build deeper connections to the natural world.",
+          "details": [
+            [
+              "Type",
+              "Museum"
+            ],
+            [
+              "Location",
+              "Washington, DC"
+            ]
+          ],
+          "film": {
+            "mp4": "media/museum-of-exploration.mp4",
+            "poster": "media/museum-of-exploration.jpg",
+            "thumb": "stills/national-geographic-museum-of-exploration.jpg",
+            "label": "The National Geographic Museum of Exploration entrance at dusk",
+            "scenes": [
+              [
+                1,
+                2
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                7,
+                10
+              ]
+            ]
+          },
+          "palette": {
+            "paper": "#121314",
+            "ink": "#f2f0ea",
+            "inkSoft": "#b7b4ac",
+            "accent": "#f4c400"
+          }
+        },
+        {
+          "title": "Lucas Museum of Narrative Art",
+          "pickedBy": {
+            "name": "Senior Leader 14",
+            "role": "Title to come",
+            "note": "A line on why they chose it will appear here."
+          },
+          "kind": "Museum",
+          "place": "Los Angeles, CA",
+          "description": "The Lucas Museum of Narrative Art, opening in 2026, invites visitors to explore storytelling across visual media, from painting and photography to comics, film and digital art. Founded by Star Wars filmmaker George Lucas and President and Co-CEO of Ariel Investments Mellody Hobson, the museum celebrates the power of narrative to shape culture and imagination, with works by artists including N. C. Wyeth, Norman Rockwell, Carrie Mae Weems, Jacob Lawrence, Diego Rivera and more. Situated in an 11-acre campus with extensive new green space, the museum will be a unique destination for anyone interested in how stories move and inspire us.",
+          "details": [
+            [
+              "Type",
+              "Museum"
+            ],
+            [
+              "Location",
+              "Los Angeles, CA"
+            ]
+          ],
+          "film": null,
+          "palette": {
+            "paper": "#1d1a24",
+            "ink": "#f2ede6",
+            "inkSoft": "#b8b0a6",
+            "accent": "#e0a96d"
+          }
+        },
+        {
+          "title": "Chess",
+          "pickedBy": {
+            "name": "Senior Leader 15",
+            "role": "Title to come",
+            "note": "A line on why they chose it will appear here."
+          },
+          "kind": "Broadway musical",
+          "place": "New York City, NY",
+          "description": "Chess returns to Broadway this fall at the Imperial Theatre in a bold new revival of the Cold War–era musical, starring Tony Award–winner Aaron Tveit from Moulin Rouge!, Lea Michele from Glee and Funny Girl, and Nicholas Christopher from Sweeney Todd. With a new book by Emmy Award–winner Danny Strong and direction by Tony Award–winner Michael Mayer, this limited run reimagines the rivalry and romance between American and Russian chess champions, set to a pop-rock score by Benny Andersson and Björn Ulvaeus of ABBA as well as EGOT winner Tim Rice. Featuring favorite songs such as “One Night in Bangkok” and “Anthem,” Chess offers theatergoers a thrilling mix of passion, strategy and unforgettable music.",
+          "details": [
+            [
+              "Type",
+              "Theater"
+            ],
+            [
+              "Location",
+              "New York City, NY"
+            ]
+          ],
+          "film": null,
+          "palette": {
+            "paper": "#121212",
+            "ink": "#f4f1ea",
+            "inkSoft": "#b4b0a8",
+            "accent": "#c9a64a"
+          }
+        },
+        {
+          "title": "Gerhard Richter at the Fondation Louis Vuitton",
+          "pickedBy": {
+            "name": "Senior Leader 16",
+            "role": "Title to come",
+            "note": "A line on why they chose it will appear here."
+          },
+          "kind": "Exhibition",
+          "place": "Paris, France",
+          "description": "The Fondation Louis Vuitton in Paris presents a major retrospective of one of the world’s most influential contemporary artists, Gerhard Richter (b. 1932). Showing 275 works, from his early photorealist paintings to his more recent luminous abstract canvases, the exhibition immerses visitors in his ongoing exploration of perception, memory and reality. Co-curated by former Tate director Sir Nicholas Serota and Dieter Schwarz, it offers a rare chance to engage with emblematic works across the German artist’s entire career, from Tante Marianne (1965) to Birkenau (2014).",
+          "details": [
+            [
+              "Type",
+              "Exhibition"
+            ],
+            [
+              "Location",
+              "Paris, France"
+            ]
+          ],
+          "credit": "Gerhard Richter, Gudrun, 1987 (CR 633), huile sur toile, 250 x 250 cm, Fondation Louis Vuitton, Paris. © Gerhard Richter 2025 (18102025)",
+          "film": null,
+          "palette": {
+            "paper": "#ece9e3",
+            "ink": "#1a1a1a",
+            "inkSoft": "#55524d",
+            "accent": "#b23a2e"
+          }
+        },
+        {
+          "title": "Museo Casa Kahlo",
+          "pickedBy": {
+            "name": "Senior Leader 17",
+            "role": "Title to come",
+            "note": "A line on why they chose it will appear here."
+          },
+          "kind": "Museum",
+          "place": "Mexico City, Mexico",
+          "description": "The recently opened Museo Casa Kahlo gives a unique look into Frida Kahlo’s early life, family and creative growth. Located in the historic Casa Roja, once home to Kahlo’s parents and later her sister, the museum features personal artifacts, childhood artwork and a newly discovered mural, all shedding light on the relationships and experiences that shaped her. With the Kahlo family’s voice at its center, Museo Casa Kahlo invites visitors to discover new stories, family treasures and contemporary art, deepening the world’s understanding of Kahlo’s legacy.",
+          "details": [
+            [
+              "Type",
+              "Museum"
+            ],
+            [
+              "Location",
+              "Mexico City, Mexico"
+            ]
+          ],
+          "film": null,
+          "palette": {
+            "paper": "#5e1a1d",
+            "ink": "#fbeee6",
+            "inkSoft": "#e3b8ad",
+            "accent": "#f2b33d"
+          }
+        },
+        {
+          "title": "Dib Bangkok International Contemporary Art Museum",
+          "pickedBy": {
+            "name": "Senior Leader 18",
+            "role": "Title to come",
+            "note": "A line on why they chose it will appear here."
+          },
+          "kind": "Museum",
+          "place": "Bangkok, Thailand",
+          "description": "Dib Bangkok, opening December 2025, is Thailand’s first museum dedicated to international contemporary art, located in a renovated 1980s warehouse in downtown Bangkok. Built on the collection of the late Petch Osathanugrah, Dib Bangkok features over 1,000 works by more than 200 artists, including Damien Hirst and Takashi Murakami, spread across 11 galleries, a sculpture garden and quiet spaces. With a mission to be a creative oasis and cultural bridge, Dib Bangkok welcomes art lovers and the curious to experience bold exhibitions, cross-cultural dialogue and the lively energy of Thailand’s growing art scene.",
+          "details": [
+            [
+              "Type",
+              "Museum"
+            ],
+            [
+              "Location",
+              "Bangkok, Thailand"
+            ]
+          ],
+          "film": null,
+          "palette": {
+            "paper": "#1b1d1f",
+            "ink": "#eef0f1",
+            "inkSoft": "#a9b0b5",
+            "accent": "#9bc7d6"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wineries",
+      "label": "Wineries",
+      "tagline": "Napa Valley wineries that blend innovation, artistry and legacy",
+      "items": [
+        {
+          "title": "Burgess Cellars",
+          "pickedBy": {
+            "name": "Senior Leader 19",
+            "role": "Title to come",
+            "note": "A line on why they chose it will appear here."
+          },
+          "funFact": "Two Napa legends learned their craft on this estate: Mike Grgich in 1958 and Warren Winiarski in 1964. Both went on to win the 1976 Judgment of Paris.",
+          "kind": "Winery",
+          "place": "Howell Mountain · Napa Valley, California",
+          "description": "Burgess Cellars, founded by Tom Burgess in 1972 on Napa Valley’s Howell Mountain, continues a winemaking tradition in the region that started in the 1870s with Swiss-Italian pioneers. After acquiring the original Souverain estate, Burgess and winemaker Bill Sorenson built a reputation for outstanding Cabernet Sauvignon, with Sorenson’s 41-year career being one of Napa’s longest. Today, led by Gaylon Lawrence, Jr., Master Sommelier Carlton McCoy and winemaker Reid Griggs, Burgess Cellars honors its heritage through regenerative farming and a focus on preserving the magic of its wines for future generations.",
+          "details": [
+            [
+              "Founded",
+              "1972"
+            ],
+            [
+              "Region",
+              "Howell Mountain, Napa Valley"
+            ]
+          ],
+          "film": {
+            "mp4": "media/burgess-cellars.mp4",
+            "poster": "media/burgess-cellars.jpg",
+            "thumb": "stills/burgess-cellars.jpg",
+            "label": "Aerial footage of Burgess Cellars and its hillside vineyard at sunset"
+          },
+          "palette": {
+            "paper": "#1e1712",
+            "ink": "#f4eadb",
+            "inkSoft": "#c8b8a2",
+            "accent": "#e3a45b"
+          }
+        },
+        {
+          "title": "Bevan Cellars",
+          "pickedBy": {
+            "name": "Senior Leader 20",
+            "role": "Title to come",
+            "note": "A line on why they chose it will appear here."
+          },
+          "funFact": "To fund the brand, the founders cashed in their retirement savings and mortgaged their home. Their 2011 Tin Box Vineyard wine went on to earn 100 points from Robert Parker.",
+          "kind": "Winery",
+          "place": "Napa Valley, California",
+          "description": "Since 2005, Bevan Cellars has pursued the art of precision and place in every vintage. Guided by a commitment to discovery, its small-lot Cabernet Sauvignon and Bordeaux-style blends capture the essence of Napa Valley’s most renowned vineyards, from Oakville to Howell Mountain and Stags Leap to St. Helena. Each bottle embodies intensity and grace, offering collectors a rare glimpse into the depth and distinction that define modern Napa Valley.",
+          "details": [
+            [
+              "Founded",
+              "2005"
+            ],
+            [
+              "Region",
+              "Napa Valley, California"
+            ]
+          ],
+          "film": null,
+          "palette": {
+            "paper": "#1c1214",
+            "ink": "#f4e9e4",
+            "inkSoft": "#c7b1aa",
+            "accent": "#c4606e"
+          }
+        },
+        {
+          "title": "Portfolio Winery",
+          "pickedBy": {
+            "name": "Senior Leader 21",
+            "role": "Title to come",
+            "note": "A line on why they chose it will appear here."
+          },
+          "funFact": "A true garage winery: everything is moved by gravity because there is no pump, and the Cabernet comes from Hendry Vineyard, first planted in 1859.",
+          "kind": "Winery",
+          "place": "Napa Valley, California",
+          "description": "Geneviève Janssens, celebrated for her leadership at Robert Mondavi Winery and Opus One, founded Portfolio Limited Edition in 1998 with her husband, creative partner, artist and philanthropist, Luc Janssens. The project was conceived as a way to unite her winemaking and his art, while also reflecting their shared commitment to Luc’s work with the Lao Rehabilitation Foundation, which provides medical care to hard-to-reach communities in Laos. Producing just 200 cases a year, each vintage embodies their dedication to quality and purpose. With honors such as Wine Enthusiast’s Winemaker of the Year, Geneviève continues to blend her French stylistic finesse with Napa Valley power.",
+          "details": [
+            [
+              "Founded",
+              "1998"
+            ],
+            [
+              "Production",
+              "200 cases a year"
+            ]
+          ],
+          "film": null,
+          "palette": {
+            "paper": "#16181f",
+            "ink": "#eef0f5",
+            "inkSoft": "#a8adbb",
+            "accent": "#c9a86a"
+          }
+        }
+      ]
+    }
+  ],
+  "covers": {
+    "epic-disruptions": "covers/epic-disruptions.jpg",
+    "i-can-fit-that-in": "covers/i-can-fit-that-in.jpg",
+    "letters-from-the-edge": "covers/letters-from-the-edge.jpg",
+    "drive-different": "covers/drive-different.jpg",
+    "you-already-know": "covers/you-already-know.jpg",
+    "leo": "covers/leo.jpg",
+    "bobbi": "covers/bobbi.jpg",
+    "1929": "covers/1929.jpg",
+    "goat": "covers/goat.jpg",
+    "jordan": "covers/jordan.jpg",
+    "ceo": "covers/ceo.jpg"
+  }
+}
